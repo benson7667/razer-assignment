@@ -7,6 +7,25 @@ const { Actions, Constants } = EasyActions({
   GET_MENU_LIST_RESPONSE(type, payload) {
     return { type, payload };
   },
+
+  ADD_MENU_ITEM_REQUEST(type) {
+    return { type };
+  },
+  ADDED_MENU_ITEM_RESPONSE(type, payload) {
+    return { type, payload };
+  },
+
+  EDIT_MENU_ITEM(type, payload) {
+    return { type, payload };
+  },
+
+  REMOVE_MENU_ITEM_REQUEST(type, payload) {
+    return { type, payload };
+  },
+  REMOVE_MENU_ITEM_RESPONSE(type, payload) {
+    return { type, payload };
+  },
+
   SET_MENU_ACTIVE_ITEM(type, payload) {
     return { type, payload };
   },

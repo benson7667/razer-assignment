@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import cx from "classnames";
-import { array, func, number } from "prop-types";
+import { array, func, string } from "prop-types";
 import { useListenOutsideClick } from "../../../../custom_hooks/layout";
 
 const ActionToolbar = (props) => {
@@ -9,14 +9,24 @@ const ActionToolbar = (props) => {
   const deleteAlertRef = useRef();
   //   const isUserClickedOutside = useListenOutsideClick(deleteAlertRef);
 
-  const { activeIndex, menuList, setMenuActiveItem } = props;
+  const {
+    activeIndex,
+    addMenuItem,
+    menuList,
+    removeMenuItem,
+    setMenuActiveItem,
+  } = props;
+
+  useEffect(() => {
+    setisAlertDeleteVisible(false);
+  }, [menuList]);
 
   const handleOnToolbarItemClick = (activeIndex) => (e) => {
     const target = e.target;
 
     switch (target.id) {
       case "add": {
-        return;
+        return addMenuItem();
       }
 
       case "edit": {
@@ -44,7 +54,7 @@ const ActionToolbar = (props) => {
   };
 
   const handleMenuDelete = () => {
-    console.log(activeIndex);
+    removeMenuItem(activeIndex);
   };
 
   const handleOnClickUp = () => {
@@ -63,14 +73,17 @@ const ActionToolbar = (props) => {
     }
   };
 
-  console.log(menuList);
+  const isDefaultItem = () => {
+    const activeItem = menuList.find((item) => item.id === activeIndex);
+    return activeItem && activeItem.isDefault;
+  };
 
   return (
     <>
       <div className="toolbar" onClick={handleOnToolbarItemClick(activeIndex)}>
         <div id="add" className="icon add"></div>
-        <div id="edit" className="icon edit"></div>
-        <div id="delete" className="icon delete"></div>
+        {!isDefaultItem() && <div id="edit" className="icon edit"></div>}
+        {!isDefaultItem() && <div id="delete" className="icon delete"></div>}
 
         <div
           id="up"
@@ -98,7 +111,7 @@ const ActionToolbar = (props) => {
         })}
         ref={deleteAlertRef}
       >
-        <div className="title">{`delete eq ${activeIndex}`}</div>
+        <div className="title">Confirm Delete?</div>
         <div className="body-text t-center">
           {`Are you sure want to delete ${activeIndex} ?`}
         </div>
@@ -111,7 +124,7 @@ const ActionToolbar = (props) => {
 };
 
 ActionToolbar.propTypes = {
-  activeIndex: number,
+  activeIndex: string,
   menuList: array,
   setMenuActiveItem: func,
 };
