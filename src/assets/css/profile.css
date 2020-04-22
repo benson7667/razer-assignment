@@ -48,11 +48,9 @@
 }
 .toolbar > .icon.edit {
   background-image: url("../images/icon_edit.svg");
-  display: none;
 }
 .toolbar > .icon.delete {
   background-image: url("../images/icon_delete.svg");
-  display: none;
 }
 .toolbar > .icon.edit.show,
 .toolbar > .icon.delete.show {

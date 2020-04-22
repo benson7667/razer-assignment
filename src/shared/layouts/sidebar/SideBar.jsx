@@ -1,49 +1,100 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import cx from "classnames";
+
+import ActionToolbar from "./components/action_toolbar";
+import MenuItem from "./components/menu_item";
+
 import "./styles.css";
 
+export const menuList = [
+  {
+    id: 1,
+    name: "Default",
+    icon: "default",
+    isDefault: true,
+  },
+  {
+    id: 2,
+    name: "Music",
+    icon: "music",
+    isDefault: true,
+  },
+  {
+    id: 3,
+    name: "Movie",
+    icon: "movie",
+    isDefault: true,
+  },
+  {
+    id: 4,
+    name: "Game",
+    icon: "game",
+    isDefault: true,
+  },
+  {
+    id: 5,
+    name: "Custom1",
+    icon: "custom",
+  },
+  {
+    id: 6,
+    name: "demo long text demo long text demo",
+    icon: "custom",
+  },
+];
+
 const SideBar = () => {
+  const [sideBarList, setSideBarList] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(1);
+
+  useEffect(() => {
+    setSideBarList(menuList);
+  }, []);
+
+  const handleOnClick = (clickId) => () => {
+    setActiveIndex(clickId);
+  };
+
+  const handleOnClickUp = () => {
+    const prevItemIndex = menuList.findIndex((item) => item.id === activeIndex);
+    const prevItem = menuList[prevItemIndex - 1];
+    if (prevItem) {
+      setActiveIndex(prevItem.id);
+    }
+  };
+
+  const handleOnClickDown = () => {
+    const nextItemIndex = menuList.findIndex((item) => item.id === activeIndex);
+    const nextItem = menuList[nextItemIndex + 1];
+    if (nextItem) {
+      setActiveIndex(nextItem.id);
+    }
+  };
+
   return (
     <div className="thx-drawer flex">
       <div className="main-title">Profile List</div>
 
       <div className="drawer-select">
         <div id="profileList" className="scrollable">
-          <div className="profile-item active default no-edit">default</div>
-          <div className="profile-item game no-edit">game</div>
-          <div className="profile-item movie no-edit">movie</div>
-          <div className="profile-item music no-edit">music</div>
-          <div className="profile-item custom">Custom 1</div>
-          <div className="profile-item custom">Custom 1</div>
-          <div className="profile-item custom">Custom 1</div>
-          <div className="profile-item custom">Custom 1</div>
-          <div className="profile-item custom">Custom 1</div>
-          <div className="profile-item custom">
-            demo long text demo long text demo
-          </div>
-          <input
-            className="profile-item"
-            placeholder="Enter Profile Name"
-            maxLength="25"
-          />
+          {sideBarList &&
+            sideBarList.map((menuItem) => (
+              <MenuItem
+                icon={menuItem.icon}
+                isActive={menuItem.id === activeIndex}
+                isDefault={menuItem.isDefault}
+                key={menuItem.id}
+                onClick={handleOnClick(menuItem.id)}
+                value={menuItem.name}
+              />
+            ))}
         </div>
 
-        <div className="toolbar">
-          <div className="icon add"></div>
-          <div className="icon edit"></div>
-          <div className="icon delete"></div>
-
-          <div className="icon down"></div>
-          <div className="icon up disabled"></div>
-        </div>
-        <div id="profileDelCfm" className="profile-del alert flex">
-          <div className="title">delete eq</div>
-          <div className="body-text t-center" id="delName">
-            delete eq
-          </div>
-          <div className="thx-btn" id="cfmDelete">
-            delete
-          </div>
-        </div>
+        <ActionToolbar
+          activeIndex={activeIndex}
+          onClickDown={handleOnClickDown}
+          onClickUp={handleOnClickUp}
+        />
       </div>
     </div>
   );
