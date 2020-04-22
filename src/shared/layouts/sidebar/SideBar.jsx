@@ -1,46 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
 
 const SideBar = () => {
   return (
-    <div class="thx-drawer flex">
-      <div class="main-title">Profile List</div>
+    <div className="thx-drawer flex">
+      <div className="main-title">Profile List</div>
 
-      <div class="drawer-select">
-        <div id="profileList" class="scrollable">
-          <div class="profile-item active default no-edit">default</div>
-          <div class="profile-item game no-edit">game</div>
-          <div class="profile-item movie no-edit">movie</div>
-          <div class="profile-item music no-edit">music</div>
-          <div class="profile-item custom">Custom 1</div>
-          <div class="profile-item custom">Custom 1</div>
-          <div class="profile-item custom">Custom 1</div>
-          <div class="profile-item custom">Custom 1</div>
-          <div class="profile-item custom">Custom 1</div>
-          <div class="profile-item custom">
+      <div className="drawer-select">
+        <div id="profileList" className="scrollable">
+          <div className="profile-item active default no-edit">default</div>
+          <div className="profile-item game no-edit">game</div>
+          <div className="profile-item movie no-edit">movie</div>
+          <div className="profile-item music no-edit">music</div>
+          <div className="profile-item custom">Custom 1</div>
+          <div className="profile-item custom">Custom 1</div>
+          <div className="profile-item custom">Custom 1</div>
+          <div className="profile-item custom">Custom 1</div>
+          <div className="profile-item custom">Custom 1</div>
+          <div className="profile-item custom">
             demo long text demo long text demo
           </div>
           <input
-            class="profile-item"
+            className="profile-item"
             placeholder="Enter Profile Name"
-            maxlength="25"
+            maxLength="25"
           />
         </div>
 
-        <div class="toolbar">
-          <div class="icon add"></div>
-          <div class="icon edit"></div>
-          <div class="icon delete"></div>
+        <div className="toolbar">
+          <div className="icon add"></div>
+          <div className="icon edit"></div>
+          <div className="icon delete"></div>
 
-          <div class="icon down"></div>
-          <div class="icon up disabled"></div>
+          <div className="icon down"></div>
+          <div className="icon up disabled"></div>
         </div>
-        <div id="profileDelCfm" class="profile-del alert flex">
-          <div class="title">delete eq</div>
-          <div class="body-text t-center" id="delName">
+        <div id="profileDelCfm" className="profile-del alert flex">
+          <div className="title">delete eq</div>
+          <div className="body-text t-center" id="delName">
             delete eq
           </div>
-          <div class="thx-btn" id="cfmDelete">
+          <div className="thx-btn" id="cfmDelete">
             delete
           </div>
         </div>
