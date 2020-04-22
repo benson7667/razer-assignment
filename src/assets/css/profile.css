@@ -16,38 +16,7 @@
   position: relative;
   margin-bottom: 1.25rem;
 }
-.thx-puller-border {
-  z-index: 100;
-  border: 1px solid #707070;
-  position: fixed;
-  height: 36px;
-  width: 26px;
-  top: 360px;
-  left: 296px;
-  background-color: #222;
-  overflow: hidden;
-}
-.thx-puller {
-  transform: rotate(0deg);
 
-  height: 36px;
-  width: 26px;
-  background-color: #111;
-  background-image: url("../images/puller.png");
-  background-repeat: no-repeat;
-  background-position: center;
-
-  will-change: transform;
-  transition: transform 0.2s;
-}
-.thx-puller.expand {
-  transform: rotate(180deg);
-}
-.thx-puller:hover {
-  background-color: #222;
-  cursor: pointer;
-  background-image: url("../images/puller_w.png");
-}
 .drawer-select .toolbar {
   position: absolute;
   bottom: 0px;
