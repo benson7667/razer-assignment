@@ -7,6 +7,9 @@ const { Actions, Constants } = EasyActions({
   GET_MENU_LIST_RESPONSE(type, payload) {
     return { type, payload };
   },
+  SET_MENU_ACTIVE_ITEM(type, payload) {
+    return { type, payload };
+  },
 });
 
 export { Actions, Constants as ActionTypes };

@@ -1,73 +1,19 @@
 import React, { useState, useEffect } from "react";
-
+import { func } from "prop-types";
 import ActionToolbar from "./components/action_toolbar";
 import MenuItem from "./components/menu_item";
 
 import "./styles.css";
 
-export const menuList = [
-  {
-    id: 1,
-    name: "Default",
-    icon: "default",
-    isDefault: true,
-  },
-  {
-    id: 2,
-    name: "Music",
-    icon: "music",
-    isDefault: true,
-  },
-  {
-    id: 3,
-    name: "Movie",
-    icon: "movie",
-    isDefault: true,
-  },
-  {
-    id: 4,
-    name: "Game",
-    icon: "game",
-    isDefault: true,
-  },
-  {
-    id: 5,
-    name: "Custom1",
-    icon: "custom",
-  },
-  {
-    id: 6,
-    name: "demo long text demo long text demo",
-    icon: "custom",
-  },
-];
-
-const SideBar = () => {
-  const [sideBarList, setSideBarList] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(1);
+const SideBar = (props) => {
+  const { activeIndex, getMenuList, setMenuActiveItem, menuList } = props;
 
   useEffect(() => {
-    setSideBarList(menuList);
+    getMenuList();
   }, []);
 
   const handleOnClick = (clickId) => () => {
-    setActiveIndex(clickId);
-  };
-
-  const handleOnClickUp = () => {
-    const prevItemIndex = menuList.findIndex((item) => item.id === activeIndex);
-    const prevItem = menuList[prevItemIndex - 1];
-    if (prevItem) {
-      setActiveIndex(prevItem.id);
-    }
-  };
-
-  const handleOnClickDown = () => {
-    const nextItemIndex = menuList.findIndex((item) => item.id === activeIndex);
-    const nextItem = menuList[nextItemIndex + 1];
-    if (nextItem) {
-      setActiveIndex(nextItem.id);
-    }
+    setMenuActiveItem(clickId);
   };
 
   return (
@@ -76,8 +22,8 @@ const SideBar = () => {
 
       <div className="drawer-select">
         <div id="profileList" className="scrollable">
-          {sideBarList &&
-            sideBarList.map((menuItem) => (
+          {menuList &&
+            menuList.map((menuItem) => (
               <MenuItem
                 icon={menuItem.icon}
                 isActive={menuItem.id === activeIndex}
@@ -89,14 +35,15 @@ const SideBar = () => {
             ))}
         </div>
 
-        <ActionToolbar
-          activeIndex={activeIndex}
-          onClickDown={handleOnClickDown}
-          onClickUp={handleOnClickUp}
-        />
+        <ActionToolbar />
       </div>
     </div>
   );
+};
+
+SideBar.propTypes = {
+  getMenuList: func,
+  setMenuActiveItem: func,
 };
 
 export default SideBar;

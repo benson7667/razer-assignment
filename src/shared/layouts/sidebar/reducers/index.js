@@ -1,8 +1,9 @@
-import { ActionTypes } from "../actions";
+import { ActionTypes, Actions } from "../actions";
 
 const defaultState = {
   menuList: [],
   isLoadingMenuList: false,
+  activeIndex: 1,
 };
 
 const settingReducer = (state = defaultState, action) => {
@@ -53,6 +54,14 @@ const settingReducer = (state = defaultState, action) => {
           },
         ],
       };
+
+    case ActionTypes.SET_MENU_ACTIVE_ITEM: {
+      console.log("action payload", action);
+      return {
+        ...state,
+        activeIndex: action.payload,
+      };
+    }
 
     default:
       return state;

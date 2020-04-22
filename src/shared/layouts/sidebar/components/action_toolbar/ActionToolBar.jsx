@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import cx from "classnames";
-import PropTypes, { func } from "prop-types";
+import { array, func, number } from "prop-types";
 import { useListenOutsideClick } from "../../../../custom_hooks/layout";
-import { menuList } from "../../SideBar";
 
 const ActionToolbar = (props) => {
   const [isAlertDeleteVisible, setisAlertDeleteVisible] = useState(false);
@@ -10,7 +9,7 @@ const ActionToolbar = (props) => {
   const deleteAlertRef = useRef();
   //   const isUserClickedOutside = useListenOutsideClick(deleteAlertRef);
 
-  const { activeIndex, onClickUp, onClickDown } = props;
+  const { activeIndex, menuList, setMenuActiveItem } = props;
 
   const handleOnToolbarItemClick = (activeIndex) => (e) => {
     const target = e.target;
@@ -31,12 +30,12 @@ const ActionToolbar = (props) => {
 
       case "up": {
         if (target.className.indexOf("disabled") > -1) return;
-        return onClickUp();
+        return handleOnClickUp();
       }
 
       case "down": {
         if (target.className.indexOf("disabled") > -1) return;
-        return onClickDown();
+        return handleOnClickDown();
       }
 
       default:
@@ -47,6 +46,24 @@ const ActionToolbar = (props) => {
   const handleMenuDelete = () => {
     console.log(activeIndex);
   };
+
+  const handleOnClickUp = () => {
+    const prevItemIndex = menuList.findIndex((item) => item.id === activeIndex);
+    const prevItem = menuList[prevItemIndex - 1];
+    if (prevItem) {
+      setMenuActiveItem(prevItem.id);
+    }
+  };
+
+  const handleOnClickDown = () => {
+    const nextItemIndex = menuList.findIndex((item) => item.id === activeIndex);
+    const nextItem = menuList[nextItemIndex + 1];
+    if (nextItem) {
+      setMenuActiveItem(nextItem.id);
+    }
+  };
+
+  console.log(menuList);
 
   return (
     <>
@@ -59,7 +76,7 @@ const ActionToolbar = (props) => {
           id="up"
           className={cx({
             "icon up": true,
-            disabled: activeIndex === menuList[0].id,
+            disabled: menuList.length && activeIndex === menuList[0].id,
           })}
         />
 
@@ -67,7 +84,9 @@ const ActionToolbar = (props) => {
           id="down"
           className={cx({
             "icon down": true,
-            disabled: activeIndex === menuList[menuList.length - 1].id,
+            disabled:
+              menuList.length &&
+              activeIndex === menuList[menuList.length - 1].id,
           })}
         />
       </div>
@@ -92,8 +111,9 @@ const ActionToolbar = (props) => {
 };
 
 ActionToolbar.propTypes = {
-  onClickDown: func.isRequired,
-  onClickUp: func.isRequired,
+  activeIndex: number,
+  menuList: array,
+  setMenuActiveItem: func,
 };
 
 export default ActionToolbar;

@@ -9,7 +9,6 @@ export const getMenuList = (action$, state$) =>
   action$.pipe(
     ofType(ActionTypes.GET_MENU_LIST_REQUEST),
     mergeMap((action) => {
-      console.log("calling apis");
       return from(api.getMenuList()).pipe(
         map((data) => {
           console.log("data", data);
