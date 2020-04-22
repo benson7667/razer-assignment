@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import cx from "classnames";
 
 import ActionToolbar from "./components/action_toolbar";
 import MenuItem from "./components/menu_item";

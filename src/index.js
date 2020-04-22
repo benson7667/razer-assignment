@@ -1,19 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+
+import store from "./store";
 import "./assets/css/index.css";
 import "./assets/fonts/index.css";
 
-import { SideBar, Content } from "./shared/layouts";
+import App from "./App";
 
-const App = () => {
-  return (
-    <div className="main-container">
-      <div className="thx-wrapper flex">
-        <SideBar />
-        <Content />
-      </div>
-    </div>
-  );
-};
-
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
