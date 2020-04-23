@@ -4,6 +4,8 @@ const defaultState = {
   menuList: [],
   activeIndex: "",
   isActiveEditing: false,
+  autoSaveCount: 0,
+  isAutoSaving: false,
 };
 
 const sideBarReducer = (state = defaultState, action) => {
@@ -45,6 +47,19 @@ const sideBarReducer = (state = defaultState, action) => {
       return {
         ...state,
         menuList: action.payload,
+      };
+
+    case ActionTypes.AUTO_SAVE_REQUEST:
+      return {
+        ...state,
+        isAutoSaving: true,
+      };
+
+    case ActionTypes.AUTO_SAVE_RESPONSE:
+      return {
+        ...state,
+        isAutoSaving: false,
+        autoSaveCount: state.autoSaveCount + 1,
       };
 
     default:

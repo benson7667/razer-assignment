@@ -45,6 +45,12 @@ class MenuList extends Component {
       const parent = document.querySelector("#profileList");
       parent.scrollTo(0, parent.scrollHeight);
     }
+
+    // when activeIndex changed, always make sure it is visible in the view
+    // if (prevProps.activeIndex !== activeIndex) {
+    //   const elem = document.querySelector(`.menu-item-${activeIndex}`);
+    //   if (elem) elem.scrollIntoView(false);
+    // }
   }
 
   handleListenClick = (e) => {
@@ -55,9 +61,7 @@ class MenuList extends Component {
       setActiveEditing,
       updateMenuItem,
     } = this.props;
-    // user is clicking within the input, do nothing
-    if (this.node && this.node.contains && this.node.contains(e.target)) return;
-    // user is clicking the edit button, do nothing
+
     if (e.target.className.indexOf("edit") > -1) return;
     if (e.target.tagName.toUpperCase() === "INPUT") return;
 
@@ -79,11 +83,17 @@ class MenuList extends Component {
       setActiveEditing,
       updateMenuItem,
     } = this.props;
+
     // input field is not visible, do nothing
     if (!isActiveEditing) return;
 
-    // user press key escape and enter, save the input
-    if (e.keyCode === 13 || e.keyCode === 27) {
+    // { 27: Exc }
+    if (e.keyCode === 27) {
+      setActiveEditing(false);
+    }
+
+    // { 13: Enter }
+    if (e.keyCode === 13) {
       setActiveEditing(false);
       updateMenuItem({
         id: activeIndex,
@@ -123,7 +133,7 @@ class MenuList extends Component {
             const { id, name, icon, isDefault } = menuItem;
 
             return (
-              <div key={menuItem.id} className="relative">
+              <div key={menuItem.id} className={`relative menu-item-${id}`}>
                 <div
                   className={cx({
                     active: id === activeIndex,

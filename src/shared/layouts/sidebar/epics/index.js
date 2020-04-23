@@ -1,13 +1,14 @@
 import { of, from } from "rxjs";
-import { map, mergeMap, catchError } from "rxjs/operators";
+import { map, mergeMap, switchMap, catchError } from "rxjs/operators";
 import { ofType } from "redux-observable";
 import { v4 as uuid4 } from "uuid";
 
+import * as api from "../../../../api";
 import { Actions, ActionTypes } from "../actions";
 import { defaultMenuList } from "../constants";
 import storage from "../../../utils/storage";
 
-export const getMenuList = (action$, state$) =>
+export const getMenuList = (action$) =>
   action$.pipe(
     ofType(ActionTypes.GET_MENU_LIST_REQUEST),
     mergeMap(() => {
@@ -56,7 +57,7 @@ export const editMenuItem = (action$, state$) =>
         sideBar: { menuList, activeIndex },
       } = state$.value;
 
-      const trimedValue = actions.payload.value;
+      const trimedValue = actions.payload.value.trim();
       const newMenuList = menuList.map((item) => {
         return item.id === activeIndex
           ? {
@@ -89,6 +90,19 @@ export const removeMenuItem = (action$, state$) =>
       return of(
         Actions.REMOVE_MENU_ITEM_RESPONSE(newMenuList),
         Actions.SET_MENU_ACTIVE_ITEM(newMenuList[newActiveIndex].id)
+      );
+    })
+  );
+
+export const autoSave = (action$) =>
+  action$.pipe(
+    ofType(ActionTypes.AUTO_SAVE_REQUEST),
+    switchMap(() => {
+      const data = storage.getMenuList();
+      if (!data) return from([]);
+      return from(api.autoSaveMenuList(data)).pipe(
+        map(() => Actions.AUTO_SAVE_RESPONSE(null)),
+        catchError((err) => of(Actions.AUTO_SAVE_RESPONSE(err.message)))
       );
     })
   );

@@ -35,6 +35,13 @@ const { Actions, Constants } = EasyActions({
   SET_MENU_ACTIVE_ITEM(type, payload) {
     return { type, payload };
   },
+
+  AUTO_SAVE_REQUEST(type) {
+    return { type };
+  },
+  AUTO_SAVE_RESPONSE(type, payload) {
+    return { type, payload };
+  },
 });
 
 export { Actions, Constants as ActionTypes };
