@@ -4,9 +4,8 @@ import { ofType } from "redux-observable";
 import { v4 as uuid4 } from "uuid";
 
 import { Actions, ActionTypes } from "../actions";
-import * as api from "../../../../api";
-import storage from "../../../utils/storage";
 import { defaultMenuList } from "../constants";
+import storage from "../../../utils/storage";
 
 export const getMenuList = (action$, state$) =>
   action$.pipe(
@@ -46,6 +45,29 @@ export const addMenuItem = (action$, state$) =>
         Actions.ADDED_MENU_ITEM_RESPONSE(newMenuList),
         Actions.SET_MENU_ACTIVE_ITEM(id)
       );
+    })
+  );
+
+export const editMenuItem = (action$, state$) =>
+  action$.pipe(
+    ofType(ActionTypes.EDIT_MENU_ITEM_REQUEST),
+    mergeMap((actions) => {
+      const {
+        sideBar: { menuList, activeIndex },
+      } = state$.value;
+
+      const trimedValue = actions.payload.value;
+      const newMenuList = menuList.map((item) => {
+        return item.id === activeIndex
+          ? {
+              ...item,
+              name: trimedValue === "" ? item.name : trimedValue,
+            }
+          : item;
+      });
+
+      storage.setMenuList(newMenuList);
+      return of(Actions.EDIT_MENU_ITEM_RESPONSE(newMenuList));
     })
   );
 

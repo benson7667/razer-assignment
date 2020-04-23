@@ -52,7 +52,7 @@ const storage = {
     storage.set(SIDEBAR_MENU_LIST, JSON.stringify(value));
   },
   getMenuList: () => {
-    const value = storage.get(SIDEBAR_MENU_LIST);
+    const value = storage.get(SIDEBAR_MENU_LIST, false);
     if (value) return JSON.parse(value);
     return null;
   },

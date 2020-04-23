@@ -10,8 +10,8 @@ const Content = (props) => {
     if (currentActiveItem && currentActiveItem.id && currentActiveItem.name) {
       return (
         <div className="sub-title flex">
-          <h1 class="eq-title">{currentActiveItem.name}</h1>
-          <h1 class="eq-title">{currentActiveItem.id}</h1>
+          <h1 className="eq-title">{currentActiveItem.name}</h1>
+          <h1 className="eq-title">{currentActiveItem.id}</h1>
         </div>
       );
     }

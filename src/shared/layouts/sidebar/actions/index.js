@@ -15,7 +15,10 @@ const { Actions, Constants } = EasyActions({
     return { type, payload };
   },
 
-  EDIT_MENU_ITEM(type, payload) {
+  EDIT_MENU_ITEM_REQUEST(type, payload) {
+    return { type, payload };
+  },
+  EDIT_MENU_ITEM_RESPONSE(type, payload) {
     return { type, payload };
   },
 
@@ -26,6 +29,9 @@ const { Actions, Constants } = EasyActions({
     return { type, payload };
   },
 
+  SET_ACTIVE_EDITING(type, payload) {
+    return { type, payload };
+  },
   SET_MENU_ACTIVE_ITEM(type, payload) {
     return { type, payload };
   },

@@ -1,19 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import cx from "classnames";
 import { array, func, string } from "prop-types";
-import { useListenOutsideClick } from "../../../../custom_hooks/layout";
 
 const ActionToolbar = (props) => {
   const [isAlertDeleteVisible, setisAlertDeleteVisible] = useState(false);
 
   const deleteAlertRef = useRef();
-  //   const isUserClickedOutside = useListenOutsideClick(deleteAlertRef);
 
   const {
     activeIndex,
     addMenuItem,
     menuList,
     removeMenuItem,
+    setActiveEditing,
     setMenuActiveItem,
   } = props;
 
@@ -30,7 +29,7 @@ const ActionToolbar = (props) => {
       }
 
       case "edit": {
-        console.log("Editing index", activeIndex);
+        setActiveEditing(true);
         return;
       }
 

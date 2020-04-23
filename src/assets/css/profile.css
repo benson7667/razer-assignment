@@ -96,7 +96,6 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-
   will-change: color, background-color;
   transition: color 0.2s, background-color 0.2s;
 }
@@ -104,6 +103,7 @@ input.profile-item {
   z-index: 2;
   font-family: "Roboto", sans-serif;
   position: absolute;
+  top: 0;
   display: none;
   width: calc(100% - 30px);
   margin-left: 30px;

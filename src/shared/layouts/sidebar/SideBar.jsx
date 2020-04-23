@@ -1,49 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import { func } from "prop-types";
+
 import ActionToolbar from "./components/action_toolbar";
-import MenuItem from "./components/menu_item";
+import MenuList from "./components/menu_list";
 
 import "./styles.css";
 
-const SideBar = (props) => {
-  const { activeIndex, getMenuList, setMenuActiveItem, menuList } = props;
+class SideBar extends Component {
+  componentDidMount() {
+    this.props.getMenuList();
+  }
 
-  useEffect(() => {
-    getMenuList();
-  }, []);
+  render() {
+    return (
+      <div className="thx-drawer flex">
+        <div className="main-title">Profile List</div>
 
-  const handleOnClick = (clickId) => () => {
-    setMenuActiveItem(clickId);
-  };
-
-  return (
-    <div className="thx-drawer flex">
-      <div className="main-title">Profile List</div>
-
-      <div className="drawer-select">
-        <div id="profileList" className="scrollable">
-          {menuList &&
-            menuList.map((menuItem) => (
-              <MenuItem
-                icon={menuItem.icon}
-                isActive={menuItem.id === activeIndex}
-                isDefault={menuItem.isDefault}
-                key={menuItem.id}
-                onClick={handleOnClick(menuItem.id)}
-                value={menuItem.name}
-              />
-            ))}
+        <div className="drawer-select">
+          <MenuList />
+          <ActionToolbar />
         </div>
-
-        <ActionToolbar />
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 SideBar.propTypes = {
   getMenuList: func,
-  setMenuActiveItem: func,
 };
 
 export default SideBar;

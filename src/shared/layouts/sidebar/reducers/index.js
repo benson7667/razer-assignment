@@ -1,12 +1,12 @@
-import { ActionTypes, Actions } from "../actions";
-import { defaultMenuList } from "../constants";
+import { ActionTypes } from "../actions";
 
 const defaultState = {
   menuList: [],
   activeIndex: "",
+  isActiveEditing: false,
 };
 
-const settingReducer = (state = defaultState, action) => {
+const sideBarReducer = (state = defaultState, action) => {
   switch (action.type) {
     case ActionTypes.GET_MENU_LIST_RESPONSE:
       return {
@@ -22,6 +22,13 @@ const settingReducer = (state = defaultState, action) => {
       };
     }
 
+    case ActionTypes.SET_ACTIVE_EDITING: {
+      return {
+        ...state,
+        isActiveEditing: action.payload,
+      };
+    }
+
     case ActionTypes.ADDED_MENU_ITEM_RESPONSE:
       return {
         ...state,
@@ -34,9 +41,15 @@ const settingReducer = (state = defaultState, action) => {
         menuList: action.payload,
       };
 
+    case ActionTypes.EDIT_MENU_ITEM_RESPONSE:
+      return {
+        ...state,
+        menuList: action.payload,
+      };
+
     default:
       return state;
   }
 };
 
-export default settingReducer;
+export default sideBarReducer;
