@@ -39,50 +39,27 @@ class MenuList extends Component {
     //   this.setState({ inputValue: this.handlePopulateInputValue() });
     // }
 
-    // if current active index is last item, scroll to bottom
+    // user add a new menu item, scroll to bottom
     const currentActiveIndex = findIndex(menuList, { id: activeIndex });
     if (currentActiveIndex === menuList.length - 1) {
       const parent = document.querySelector("#profileList");
       parent.scrollTo(0, parent.scrollHeight);
     }
-
-    // when activeIndex changed, always make sure it is visible in the view
-    // if (prevProps.activeIndex !== activeIndex) {
-    //   const elem = document.querySelector(`.menu-item-${activeIndex}`);
-    //   if (elem) elem.scrollIntoView(false);
-    // }
   }
 
   handleListenClick = (e) => {
-    const { inputValue } = this.state;
-    const {
-      activeIndex,
-      isActiveEditing,
-      setActiveEditing,
-      updateMenuItem,
-    } = this.props;
+    const { isActiveEditing } = this.props;
 
+    // user is clicking edit button / input field, do nothing
     if (e.target.className.indexOf("edit") > -1) return;
     if (e.target.tagName.toUpperCase() === "INPUT") return;
 
-    // set active editing to false only if input field is visible
-    if (isActiveEditing) {
-      setActiveEditing(false);
-      updateMenuItem({
-        id: activeIndex,
-        value: inputValue,
-      });
-    }
+    // user is clicking anywhere and when input field is focus
+    if (isActiveEditing) this.unfocusAndSave();
   };
 
   handleListenKeyDown = (e) => {
-    const { inputValue } = this.state;
-    const {
-      activeIndex,
-      isActiveEditing,
-      setActiveEditing,
-      updateMenuItem,
-    } = this.props;
+    const { isActiveEditing, setActiveEditing } = this.props;
 
     // input field is not visible, do nothing
     if (!isActiveEditing) return;
@@ -93,13 +70,18 @@ class MenuList extends Component {
     }
 
     // { 13: Enter }
-    if (e.keyCode === 13) {
-      setActiveEditing(false);
-      updateMenuItem({
-        id: activeIndex,
-        value: inputValue,
-      });
-    }
+    if (e.keyCode === 13) this.unfocusAndSave();
+  };
+
+  unfocusAndSave = () => {
+    const { activeIndex, setActiveEditing, updateMenuItem } = this.props;
+    const { inputValue } = this.state;
+    setActiveEditing(false);
+    updateMenuItem({
+      id: activeIndex,
+      value: inputValue,
+    });
+    this.setState({ inputValue: "" });
   };
 
   // handlePopulateInputValue = () => {
@@ -108,18 +90,20 @@ class MenuList extends Component {
   //   return found.name;
   // };
 
-  handleMenuItemClick = (id) => () => {
-    this.props.setMenuActiveItem(id);
-  };
+  handleMenuItemClick = (id) => (e) => {
+    const { isActiveEditing, setMenuActiveItem } = this.props;
 
-  handleFocus = (e) => {
-    e.target.select();
+    return isActiveEditing ? this.unfocusAndSave() : setMenuActiveItem(id);
   };
 
   handleOnChange = (e) => {
     this.setState({
       inputValue: e.target.value,
     });
+  };
+
+  handleFocus = (e) => {
+    e.target.select();
   };
 
   render() {
