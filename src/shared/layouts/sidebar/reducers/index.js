@@ -12,7 +12,7 @@ const settingReducer = (state = defaultState, action) => {
       return {
         ...state,
         menuList: action.payload,
-        activeIndex: action.payload[0].id,
+        activeIndex: action.payload.length ? action.payload[0].id : "",
       };
 
     case ActionTypes.SET_MENU_ACTIVE_ITEM: {
