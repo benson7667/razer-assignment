@@ -5,7 +5,7 @@ import { v4 as uuid4 } from "uuid";
 
 import * as api from "../../../../api";
 import { Actions, ActionTypes } from "../actions";
-import { defaultMenuList } from "../constants";
+import { defaultMenuList } from "../../../../constants";
 import storage from "../../../utils/storage";
 
 export const getMenuList = (action$) =>

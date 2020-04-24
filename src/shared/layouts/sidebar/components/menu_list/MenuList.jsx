@@ -44,6 +44,22 @@ class MenuList extends Component {
       const parent = document.querySelector("#profileList");
       parent.scrollTo(0, parent.scrollHeight);
     }
+
+    if (prevProps.activeIndex !== activeIndex) {
+      const parent = document.querySelector(".scrollable");
+      const element = document.querySelector(`.menu-item-${activeIndex}`);
+      if (!element || !parent) return;
+
+      const top = parent.scrollTop;
+      const offset = element.offsetTop - top;
+
+      // height per item is 30
+      if (offset >= 150) {
+        parent.scrollTo(0, top + offset - 150);
+      } else if (offset <= 0) {
+        parent.scrollTo(0, top + offset);
+      }
+    }
   }
 
   handleListenClick = (e) => {
@@ -120,7 +136,10 @@ class MenuList extends Component {
             const { id, name, icon, isDefault } = menuItem;
 
             return (
-              <div key={menuItem.id} className="relative">
+              <div
+                key={menuItem.id}
+                className={`relative menu-item-${menuItem.id}`}
+              >
                 <div
                   className={cx({
                     active: id === activeIndex,
