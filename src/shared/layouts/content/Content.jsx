@@ -22,8 +22,51 @@ const Content = (props) => {
             </h1>
           )}
 
-          <p>Here is another Upgraded Version</p>
-          <p>You can also check source code through the Github Url:</p>
+          <div
+            style={{
+              border: "1px solid green",
+              padding: "10px",
+              fontSize: "14px",
+              userSelect: "text",
+              margin: "10px 0",
+              width: "400px",
+            }}
+          >
+            <div style={{ marginBottom: "10px" }}>
+              Here is another Upgraded Version
+            </div>
+
+            <a
+              style={{ color: "white" }}
+              target="_blank"
+              href="https://practical-tesla-550e41.netlify.app/"
+            >
+              View the site
+            </a>
+          </div>
+
+          <div
+            style={{
+              border: "1px solid green",
+              padding: "10px",
+              fontSize: "14px",
+              userSelect: "text",
+              margin: "10px 0",
+              width: "400px",
+            }}
+          >
+            <div style={{ marginBottom: "10px" }}>
+              You can also view the source code on my Github:
+            </div>
+
+            <a
+              style={{ color: "white", margin: "10px 0" }}
+              target="_blank"
+              href="https://github.com/benson7667/razer-assignment/branches"
+            >
+              Go to github
+            </a>
+          </div>
         </div>
       );
     }
