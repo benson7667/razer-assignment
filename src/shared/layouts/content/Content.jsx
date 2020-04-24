@@ -21,6 +21,9 @@ const Content = (props) => {
               slow
             </h1>
           )}
+
+          <p>Here is another Upgraded Version</p>
+          <p>You can also check source code through the Github Url:</p>
         </div>
       );
     }
