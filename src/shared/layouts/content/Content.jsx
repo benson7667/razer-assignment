@@ -32,9 +32,28 @@ const Content = (props) => {
               width: "400px",
             }}
           >
-            <div style={{ marginBottom: "10px" }}>
-              Here is another Upgraded Version
-            </div>
+            <div style={{ marginBottom: "10px" }}>Basic Version</div>
+
+            <a
+              style={{ color: "white" }}
+              target="_blank"
+              href="https://boring-brown-c7d082.netlify.app/"
+            >
+              View the site
+            </a>
+          </div>
+
+          <div
+            style={{
+              border: "1px solid green",
+              padding: "10px",
+              fontSize: "14px",
+              userSelect: "text",
+              margin: "10px 0",
+              width: "400px",
+            }}
+          >
+            <div style={{ marginBottom: "10px" }}>Upgraded Version</div>
 
             <a
               style={{ color: "white" }}
