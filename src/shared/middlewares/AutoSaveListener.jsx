@@ -1,6 +1,7 @@
 import { Actions, ActionTypes } from "../layouts/sidebar/actions";
 
 let timer = null;
+
 const debounce = (fn, waitTime) => {
   if (timer) clearTimeout(timer);
   timer = setTimeout(fn, waitTime);

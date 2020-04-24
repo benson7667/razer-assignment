@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import cx from "classnames";
 import findIndex from "lodash/findIndex";
+import find from "lodash/find";
 
 import { Input } from "../../../../components";
 import { Actions } from "../../actions";
@@ -31,13 +32,11 @@ class MenuList extends Component {
   componentDidUpdate(prevProps) {
     const { isActiveEditing, menuList, activeIndex } = this.props;
 
-    // when input is visible, initialize it with current activeIndex's value
-    // if (
-    //   prevProps.isActiveEditing !== this.props.isActiveEditing &&
-    //   this.props.isActiveEditing
-    // ) {
-    //   this.setState({ inputValue: this.handlePopulateInputValue() });
-    // }
+    // when input is visible, initialize it with current activeIndex's name
+    if (prevProps.isActiveEditing !== isActiveEditing && isActiveEditing) {
+      const inputValue = this.initializeInputValue();
+      this.setState({ inputValue });
+    }
 
     // user add a new menu item, scroll to bottom
     const currentActiveIndex = findIndex(menuList, { id: activeIndex });
@@ -73,6 +72,7 @@ class MenuList extends Component {
     if (e.keyCode === 13) this.unfocusAndSave();
   };
 
+  // close the input field and save the value
   unfocusAndSave = () => {
     const { activeIndex, setActiveEditing, updateMenuItem } = this.props;
     const { inputValue } = this.state;
@@ -84,15 +84,14 @@ class MenuList extends Component {
     this.setState({ inputValue: "" });
   };
 
-  // handlePopulateInputValue = () => {
-  //   const { activeIndex, menuList } = this.props;
-  //   const found = find(menuList, { id: activeIndex });
-  //   return found.name;
-  // };
+  initializeInputValue = () => {
+    const { activeIndex, menuList } = this.props;
+    const initialInputValue = find(menuList, { id: activeIndex });
+    return initialInputValue && initialInputValue.name;
+  };
 
   handleMenuItemClick = (id) => (e) => {
     const { isActiveEditing, setMenuActiveItem } = this.props;
-
     return isActiveEditing ? this.unfocusAndSave() : setMenuActiveItem(id);
   };
 
@@ -103,7 +102,11 @@ class MenuList extends Component {
   };
 
   handleFocus = (e) => {
-    e.target.select();
+    // some little tricks to resolve issues where auto select is not working due to async event
+    const target = e.target;
+    setTimeout(() => {
+      target.select();
+    }, 0);
   };
 
   render() {
@@ -117,7 +120,7 @@ class MenuList extends Component {
             const { id, name, icon, isDefault } = menuItem;
 
             return (
-              <div key={menuItem.id} className={`relative menu-item-${id}`}>
+              <div key={menuItem.id} className="relative">
                 <div
                   className={cx({
                     active: id === activeIndex,

@@ -1,6 +1,8 @@
-import React, { useState, useRef, useEffect, Component } from "react";
+import React, { Component } from "react";
 import cx from "classnames";
 import { array, func, string } from "prop-types";
+import find from "lodash/find";
+import get from "lodash/get";
 
 class ActionToolbar extends Component {
   constructor(props) {
@@ -57,18 +59,14 @@ class ActionToolbar extends Component {
     const { activeIndex, menuList, setMenuActiveItem } = this.props;
     const prevItemIndex = menuList.findIndex((item) => item.id === activeIndex);
     const prevItem = menuList[prevItemIndex - 1];
-    if (prevItem) {
-      setMenuActiveItem(prevItem.id);
-    }
+    if (prevItem) setMenuActiveItem(prevItem.id);
   };
 
   handleOnClickDown = () => {
     const { activeIndex, menuList, setMenuActiveItem } = this.props;
     const nextItemIndex = menuList.findIndex((item) => item.id === activeIndex);
     const nextItem = menuList[nextItemIndex + 1];
-    if (nextItem) {
-      setMenuActiveItem(nextItem.id);
-    }
+    if (nextItem) setMenuActiveItem(nextItem.id);
   };
 
   handleOnToolbarItemClick = (activeIndex) => (e) => {
@@ -104,16 +102,14 @@ class ActionToolbar extends Component {
     }
   };
 
-  render() {
-    const {
-      activeIndex,
-      addMenuItem,
-      menuList,
-      removeMenuItem,
-      setActiveEditing,
-      setMenuActiveItem,
-    } = this.props;
+  getDeleteItemName = () => {
+    const { activeIndex, menuList } = this.props;
+    const deleteItem = find(menuList, { id: activeIndex });
+    return get(deleteItem, "name", "");
+  };
 
+  render() {
+    const { activeIndex, menuList } = this.props;
     const { isDeleteAlertBoxVisible } = this.state;
 
     return (
@@ -154,10 +150,8 @@ class ActionToolbar extends Component {
             show: isDeleteAlertBoxVisible,
           })}
         >
-          <div className="title">Confirm Delete?</div>
-          <div className="body-text t-center">
-            {`Are you sure want to delete ${activeIndex} ?`}
-          </div>
+          <div className="title">Delete Eq?</div>
+          <div className="body-text t-center">{this.getDeleteItemName()}</div>
           <div onClick={this.handleMenuDelete} className="thx-btn">
             delete
           </div>
@@ -166,69 +160,6 @@ class ActionToolbar extends Component {
     );
   }
 }
-
-// const ActionToolbar = (props) => {
-//   const [isAlertDeleteVisible, setisAlertDeleteVisible] = useState(false);
-
-//   const deleteAlertRef = useRef();
-
-//   const {
-//     activeIndex,
-//     addMenuItem,
-//     menuList,
-//     removeMenuItem,
-//     setActiveEditing,
-//     setMenuActiveItem,
-//   } = props;
-
-//   useEffect(() => {
-//     setisAlertDeleteVisible(false);
-//   }, [menuList]);
-
-//   return (
-//     <>
-//       <div className="toolbar" onClick={handleOnToolbarItemClick(activeIndex)}>
-//         <div id="add" className="icon add"></div>
-//         {!isDefaultItem() && <div id="edit" className="icon edit"></div>}
-//         {!isDefaultItem() && <div id="delete" className="icon delete"></div>}
-
-//         <div
-//           id="up"
-//           className={cx({
-//             "icon up": true,
-//             disabled: menuList.length && activeIndex === menuList[0].id,
-//           })}
-//         />
-
-//         <div
-//           id="down"
-//           className={cx({
-//             "icon down": true,
-//             disabled:
-//               menuList.length &&
-//               activeIndex === menuList[menuList.length - 1].id,
-//           })}
-//         />
-//       </div>
-
-//       <div
-//         className={cx({
-//           "profile-del alert flex": true,
-//           show: isAlertDeleteVisible,
-//         })}
-//         ref={deleteAlertRef}
-//       >
-//         <div className="title">Confirm Delete?</div>
-//         <div className="body-text t-center">
-//           {`Are you sure want to delete ${activeIndex} ?`}
-//         </div>
-//         <div onClick={handleMenuDelete} className="thx-btn">
-//           delete
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
 
 ActionToolbar.propTypes = {
   activeIndex: string,

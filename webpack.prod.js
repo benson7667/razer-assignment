@@ -1,8 +1,9 @@
-const webpack = require("webpack");
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   mode: "production",
@@ -49,22 +50,26 @@ module.exports = {
       description: "This is an assignment given by Razer Inc",
       template: "./src/index.html",
     }),
-    // new webpack.DefinePlugin({
-    //   "process.env.NODE_ENV": JSON.stringify(
-    //     process.env.NODE_ENV || "production"
-    //   ),
-    //   "process.env.BUILD_ENV": JSON.stringify(
-    //     process.env.BUILD_ENV || "development"
-    //   ),
-    // }),
     new MiniCssExtractPlugin({
+      // make css into a link url
       filename: "assets/css/[name].[contenthash].css",
     }),
   ],
-  //   optimization: {
-  //     minimizer: [
-  //       new OptimizeCssAssetsPlugin(), // Minimize CSS in production
-  //       new UglifyJsPlugin(), // Minimize JS in production
-  //     ],
-  //   },
+  optimization: {
+    minimizer: [
+      new OptimizeCssAssetsPlugin(), // Minimize CSS in production
+      new TerserPlugin({
+        cache: true,
+        extractComments: false,
+        exclude: [/\.min\.js$/gi],
+        parallel: true, // recommended to increase build time
+        sourceMap: true,
+        terserOptions: {
+          ecma: 5, // to es5
+          mangle: true,
+          compress: true,
+        },
+      }),
+    ],
+  },
 };

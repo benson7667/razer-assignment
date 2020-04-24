@@ -16,6 +16,8 @@ export const getMenuList = (action$) =>
       if (data) {
         return of(Actions.GET_MENU_LIST_RESPONSE(data));
       }
+
+      // Can call apis here to fetch menuList if storage is empty
       storage.setMenuList(defaultMenuList);
       return of(Actions.GET_MENU_LIST_RESPONSE(defaultMenuList));
     })
@@ -58,14 +60,18 @@ export const editMenuItem = (action$, state$) =>
       } = state$.value;
 
       const trimedValue = actions.payload.value.trim();
-      const newMenuList = menuList.map((item) => {
-        return item.id === activeIndex
+
+      // do nothing...
+      if (trimedValue === "") return from([]);
+
+      const newMenuList = menuList.map((item) =>
+        item.id === activeIndex && trimedValue !== ""
           ? {
               ...item,
-              name: trimedValue === "" ? item.name : trimedValue,
+              name: trimedValue,
             }
-          : item;
-      });
+          : item
+      );
 
       storage.setMenuList(newMenuList);
       return of(Actions.EDIT_MENU_ITEM_RESPONSE(newMenuList));
