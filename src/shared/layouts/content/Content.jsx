@@ -16,46 +16,6 @@ const Content = (props) => {
           <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
           <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
 
-          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
-          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
-          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
-
-          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
-          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
-          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
-
-          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
-          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
-          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
-
-          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
-          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
-          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
-
-          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
-          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
-          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
-
-          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
-          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
-          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
-
-          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
-          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
-          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
-
-          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
-          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
-          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
-
-          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
-          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
-          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
-
-          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
-          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
-          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
-
           {isAutoSaving && (
             <h1 className="eq-title">
               Auto Saving... Please wait a while, jsonplaceholder apis freaking
