@@ -1,0 +1,41 @@
+@import "../../../../../assets/styles/colors.less";
+
+.toolbar {
+  &-wrapper {
+    position: absolute;
+    display: flex;
+    width: 240px;
+    left: 0;
+    bottom: 0;
+  }
+
+  &-actions-list {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+
+    &--item {
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px;
+      color: @color-83;
+      transition: color 0.3s ease-in;
+
+      &:hover {
+        color: @color-bb;
+        border: 1px solid @color-accent;
+      }
+    }
+
+    &--item.disabled {
+      pointer-events: none;
+      cursor: text;
+      color: @color-3e;
+      opacity: 0.7;
+    }
+  }
+}

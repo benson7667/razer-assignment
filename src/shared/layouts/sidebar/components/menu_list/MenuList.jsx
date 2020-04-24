@@ -6,6 +6,7 @@ import find from "lodash/find";
 
 import { Input } from "../../../../components";
 import { Actions } from "../../actions";
+import "./styles.less";
 
 class MenuList extends Component {
   constructor(props) {

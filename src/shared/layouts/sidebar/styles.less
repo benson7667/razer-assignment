@@ -1,0 +1,99 @@
+@import "../../../assets/styles/colors.less";
+
+.sidebar {
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    background-color: @color-primary;
+    padding: 20px;
+    height: 100vh;
+    flex-shrink: 0;
+  }
+
+  &-title {
+    color: @color-green;
+    font-family: "RazerF5";
+    text-transform: uppercase;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: normal;
+    max-height: 24px;
+    margin-bottom: 20px;
+  }
+
+  &-menu-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &-item {
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      transition: color 0.3s ease-in-out;
+      line-height: 2.5;
+      color: @color-60;
+
+      &:hover {
+        color: @color-bb;
+      }
+
+      &::before {
+        content: "";
+        width: 2px;
+        margin-right: 10px;
+        background-color: @color-green;
+        height: 0px;
+        transition: height 0.2s ease-in;
+      }
+
+      &:hover::before {
+        height: 20px;
+      }
+    }
+
+    &-item.active {
+      color: @color-bb;
+    }
+    &-item.active {
+      &::before {
+        height: 20px;
+      }
+    }
+  }
+}
+
+// toolbar
+.toolbar {
+  &-wrapper {
+    position: absolute;
+    display: flex;
+    width: 240px;
+    left: 0;
+    bottom: 0;
+  }
+
+  &-actions-list {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+
+    &--item {
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      color: @color-83;
+      transition: color 0.3s ease-in;
+
+      &:hover {
+        color: @color-bb;
+        border: 1px solid @color-accent;
+      }
+    }
+  }
+}

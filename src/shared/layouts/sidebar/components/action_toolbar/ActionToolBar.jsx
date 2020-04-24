@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import cx from "classnames";
 import { array, func, string } from "prop-types";
+
 import find from "lodash/find";
 import get from "lodash/get";
+
+import "./styles.less";
 
 class ActionToolbar extends Component {
   constructor(props) {
@@ -13,15 +16,15 @@ class ActionToolbar extends Component {
     };
   }
 
-  componentDidMount() {
-    if (window && typeof window !== "undefined") {
-      window.addEventListener("click", this.handleListenClick);
-    }
-  }
+  // componentDidMount() {
+  //   if (window && typeof window !== "undefined") {
+  //     window.addEventListener("click", this.handleListenClick);
+  //   }
+  // }
 
-  componentWillUnmount() {
-    window.addEventListener("click", this.handleListenClick);
-  }
+  // componentWillUnmount() {
+  //   window.addEventListener("click", this.handleListenClick);
+  // }
 
   componentDidUpdate(prevProps) {
     const { menuList } = this.props;
@@ -72,34 +75,40 @@ class ActionToolbar extends Component {
   handleOnToolbarItemClick = (activeIndex) => (e) => {
     const target = e.target;
 
-    switch (target.id) {
-      case "add": {
+    const action = target.className.split(" ")[0];
+
+    switch (action) {
+      case "MOVE_UP": {
+        if (target.className.indexOf("disabled") > -1) return;
+        return this.handleOnClickUp();
+      }
+
+      case "MOVE_DOWN": {
+        // if (target.className.indexOf("disabled") > -1) return;
+        return this.handleOnClickDown();
+      }
+
+      case "ACTION_ADD": {
         return this.props.addMenuItem();
       }
 
-      case "edit": {
+      case "ACTION_EDIT": {
         return this.props.setActiveEditing(true);
       }
 
-      case "delete": {
+      case "ACTION_DELETE": {
         return this.setState((prevState) => ({
           isDeleteAlertBoxVisible: !prevState.isDeleteAlertBoxVisible,
         }));
       }
 
-      case "up": {
-        if (target.className.indexOf("disabled") > -1) return;
-        return this.handleOnClickUp();
-      }
-
-      case "down": {
-        if (target.className.indexOf("disabled") > -1) return;
-        return this.handleOnClickDown();
-      }
-
       default:
         return;
     }
+  };
+
+  handleArrowDown = (e) => {
+    console.log("svg", e.target.className);
   };
 
   getDeleteItemName = () => {
@@ -115,6 +124,47 @@ class ActionToolbar extends Component {
     return (
       <>
         <div
+          className="toolbar-wrapper"
+          onClick={this.handleOnToolbarItemClick(activeIndex)}
+        >
+          <div className="toolbar-actions-list">
+            <i
+              className={cx({
+                "MOVE_UP fa fa-arrow-up": true,
+                "toolbar-actions-list--item": true,
+                disabled: menuList.length && activeIndex === menuList[0].id,
+              })}
+            ></i>
+
+            <i
+              className={cx({
+                "MOVE_DOWN fa fa-arrow-down": true,
+                "toolbar-actions-list--item": true,
+                disabled:
+                  menuList.length &&
+                  activeIndex === menuList[menuList.length - 1].id,
+              })}
+            ></i>
+
+            <i
+              className={cx({
+                "ACTION_EDIT fa fa-pencil": true,
+                "toolbar-actions-list--item": true,
+                disabled: this.isDefaultItem(),
+              })}
+            ></i>
+
+            <i
+              className={cx({
+                "ACTION_DELETE fa fa-trash": true,
+                "toolbar-actions-list--item": true,
+                disabled: this.isDefaultItem(),
+              })}
+            ></i>
+          </div>
+        </div>
+
+        {/* <div
           className="toolbar"
           onClick={this.handleOnToolbarItemClick(activeIndex)}
         >
@@ -155,7 +205,7 @@ class ActionToolbar extends Component {
           <div onClick={this.handleMenuDelete} className="thx-btn">
             delete
           </div>
-        </div>
+        </div> */}
       </>
     );
   }
