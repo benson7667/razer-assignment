@@ -1,14 +1,12 @@
 import React from "react";
-import { SideBar, Content } from "./shared/layouts";
+import { AppContainer, Content, SideBar } from "./shared/layouts";
 
 const App = () => {
   return (
-    // <div className="main-container">
-    <div className="flex">
+    <AppContainer>
       <SideBar />
       <Content />
-    </div>
-    // </div>
+    </AppContainer>
   );
 };
 

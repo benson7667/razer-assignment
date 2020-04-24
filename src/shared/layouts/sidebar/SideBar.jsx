@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 import { func } from "prop-types";
 import cx from "classnames";
-import { FiPlus, FiEdit2, FiX, FiArrowUp, FiArrowDown } from "react-icons/fi";
-import {
-  AiOutlineArrowDown,
-  AiOutlineArrowUp,
-  AiOutlineDelete,
-  AiOutlineEdit,
-  AiOutlinePlus,
-} from "react-icons/ai";
 
 import ActionToolbar from "./components/action_toolbar";
 import MenuList from "./components/menu_list";
@@ -57,7 +49,7 @@ class SideBar extends Component {
                   onClick={this.handleMenuItemClick(id)}
                 >
                   <span className="flex1">{name}</span>
-                  <FiX />
+                  <i className="fa fa-times"></i>
                 </li>
               );
             })}

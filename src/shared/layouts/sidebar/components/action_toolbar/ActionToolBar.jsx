@@ -84,7 +84,7 @@ class ActionToolbar extends Component {
       }
 
       case "MOVE_DOWN": {
-        // if (target.className.indexOf("disabled") > -1) return;
+        if (target.className.indexOf("disabled") > -1) return;
         return this.handleOnClickDown();
       }
 
