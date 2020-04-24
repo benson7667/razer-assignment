@@ -1,1 +1,37 @@
 /* TODO: move css related to sidebar here */
+
+.sidebar-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  background-color: #111;
+  padding: 20px;
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  color: #44d62c;
+  font-family: "RazerF5";
+  text-transform: uppercase;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: normal;
+  max-height: 24px;
+  margin-bottom: 20px;
+}
+
+.sidebar-menu-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar-menu-list-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid #44d62c;
+  padding: 10px;
+  color: white;
+}
