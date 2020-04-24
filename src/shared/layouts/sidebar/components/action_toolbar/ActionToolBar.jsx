@@ -2,65 +2,9 @@ import React, { Component } from "react";
 import cx from "classnames";
 import { array, func, string } from "prop-types";
 
-import find from "lodash/find";
-import get from "lodash/get";
-
-import { AlertMessage } from "../../../../../shared/components";
-
 import "./styles.less";
 
 class ActionToolbar extends Component {
-  constructor(props) {
-    super(props);
-    this.deleteBoxRef = React.createRef();
-    this.state = {
-      isDeleteAlertBoxVisible: false,
-      isAlertBoxVisible: false,
-    };
-  }
-
-  // componentDidMount() {
-  //   if (window && typeof window !== "undefined") {
-  //     window.addEventListener("click", this.handleListenClick);
-  //   }
-  // }
-
-  // componentWillUnmount() {
-  //   window.addEventListener("click", this.handleListenClick);
-  // }
-
-  componentDidUpdate(prevProps) {
-    const { menuList } = this.props;
-    // hide delete alert box when successfully delete an item
-    if (menuList.length < prevProps.menuList.length) {
-      this.setState({
-        isDeleteAlertBoxVisible: false,
-      });
-    }
-  }
-
-  handleListenClick = (e) => {
-    // user is clicking within the alert box, do nothing
-    if (this.deleteBoxRef && this.deleteBoxRef.current.contains(e.target))
-      return;
-
-    // user is clicking the delete button, do nothing
-    if (e.target.className.indexOf("delete") > -1) return;
-
-    this.setState({ isDeleteAlertBoxVisible: false });
-  };
-
-  isDefaultItem = () => {
-    const { menuList, activeIndex } = this.props;
-    const activeItem = menuList.find((item) => item.id === activeIndex);
-    return activeItem && activeItem.isDefault;
-  };
-
-  handleMenuDelete = () => {
-    const { activeIndex, removeMenuItem } = this.props;
-    removeMenuItem(activeIndex);
-  };
-
   handleOnClickUp = () => {
     const { activeIndex, menuList, setMenuActiveItem } = this.props;
     const prevItemIndex = menuList.findIndex((item) => item.id === activeIndex);
@@ -75,9 +19,8 @@ class ActionToolbar extends Component {
     if (nextItem) setMenuActiveItem(nextItem.id);
   };
 
-  handleOnToolbarItemClick = (activeIndex) => (e) => {
+  handleOnToolbarItemClick = (e) => {
     const target = e.target;
-
     const action = target.className.split(" ")[0];
 
     switch (action) {
@@ -100,7 +43,8 @@ class ActionToolbar extends Component {
       }
 
       case "ACTION_DELETE": {
-        return this.setState({ isAlertBoxVisible: true });
+        const { activeIndex } = this.props;
+        return this.props.triggerDelete(activeIndex);
       }
 
       default:
@@ -108,22 +52,10 @@ class ActionToolbar extends Component {
     }
   };
 
-  handleArrowDown = (e) => {
-    console.log("svg", e.target.className);
-  };
-
-  handleOnConfirm = () => {};
-
-  handleOnCancel = () => {
-    console.log("asdasd");
-    this.setState({ isAlertBoxVisible: false });
-  };
-
-  generateAlertMessage = () => {
-    const { activeIndex, menuList } = this.props;
-    const deleteItem = find(menuList, { id: activeIndex });
-    const name = get(deleteItem, "name", "");
-    return `Are you sure want to delete ${name} ?`;
+  isDefaultItem = () => {
+    const { menuList, activeIndex } = this.props;
+    const activeItem = menuList.find((item) => item.id === activeIndex);
+    return activeItem && activeItem.isDefault;
   };
 
   render() {
@@ -132,97 +64,50 @@ class ActionToolbar extends Component {
     return (
       <>
         <div
-          className="toolbar-wrapper"
-          onClick={this.handleOnToolbarItemClick(activeIndex)}
+          className="toolbar-actions-list"
+          onClick={this.handleOnToolbarItemClick}
         >
-          <div className="toolbar-actions-list">
-            <i
-              className={cx({
-                "MOVE_UP fa fa-arrow-up": true,
-                "toolbar-actions-list--item": true,
-                disabled: menuList.length && activeIndex === menuList[0].id,
-              })}
-            ></i>
-
-            <i
-              className={cx({
-                "MOVE_DOWN fa fa-arrow-down": true,
-                "toolbar-actions-list--item": true,
-                disabled:
-                  menuList.length &&
-                  activeIndex === menuList[menuList.length - 1].id,
-              })}
-            ></i>
-
-            <i
-              className={cx({
-                "ACTION_EDIT fa fa-pencil": true,
-                "toolbar-actions-list--item": true,
-                disabled: this.isDefaultItem(),
-              })}
-            ></i>
-
-            <i
-              className={cx({
-                "ACTION_DELETE fa fa-trash": true,
-                "toolbar-actions-list--item": true,
-                disabled: this.isDefaultItem(),
-              })}
-            ></i>
-          </div>
-
-          {this.state.isAlertBoxVisible && (
-            <AlertMessage
-              title="Delete Profile"
-              messages={this.generateAlertMessage()}
-              onConfirm={this.handleOnConfirm}
-              onCancel={this.handleOnCancel}
-            />
-          )}
-        </div>
-
-        {/* <div
-          className="toolbar"
-          onClick={this.handleOnToolbarItemClick(activeIndex)}
-        >
-          <div id="add" className="icon add"></div>
-          {!this.isDefaultItem() && <div id="edit" className="icon edit"></div>}
-          {!this.isDefaultItem() && (
-            <div id="delete" className="icon delete"></div>
-          )}
-
-          <div
-            id="up"
+          <i
             className={cx({
-              "icon up": true,
+              "MOVE_UP fa fa-arrow-up": true,
+              "toolbar-actions-list--item": true,
               disabled: menuList.length && activeIndex === menuList[0].id,
             })}
-          />
+          ></i>
 
-          <div
-            id="down"
+          <i
             className={cx({
-              "icon down": true,
+              "MOVE_DOWN fa fa-arrow-down": true,
+              "toolbar-actions-list--item": true,
               disabled:
                 menuList.length &&
                 activeIndex === menuList[menuList.length - 1].id,
             })}
-          />
-        </div>
+          ></i>
 
-        <div
-          ref={this.deleteBoxRef}
-          className={cx({
-            "profile-del alert flex": true,
-            show: isDeleteAlertBoxVisible,
-          })}
-        >
-          <div className="title">Delete Eq?</div>
-          <div className="body-text t-center">{this.getDeleteItemName()}</div>
-          <div onClick={this.handleMenuDelete} className="thx-btn">
-            delete
-          </div>
-        </div> */}
+          <i
+            className={cx({
+              "ACTION_EDIT fa fa-pencil": true,
+              "toolbar-actions-list--item": true,
+              disabled: this.isDefaultItem(),
+            })}
+          ></i>
+
+          <i
+            className={cx({
+              "ACTION_DELETE fa fa-trash": true,
+              "toolbar-actions-list--item": true,
+              disabled: this.isDefaultItem(),
+            })}
+          ></i>
+
+          <i
+            className={cx({
+              "ACTION_ADD fa fa-plus": true,
+              "toolbar-actions-list--item": true,
+            })}
+          ></i>
+        </div>
       </>
     );
   }
@@ -232,6 +117,7 @@ ActionToolbar.propTypes = {
   activeIndex: string,
   menuList: array,
   setMenuActiveItem: func,
+  triggerDelete: func,
 };
 
 export default ActionToolbar;

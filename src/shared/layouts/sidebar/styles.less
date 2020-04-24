@@ -7,7 +7,7 @@
     flex-direction: column;
     width: 240px;
     background-color: @color-primary;
-    padding: 20px;
+    // padding: 20px;
     height: 100vh;
     flex-shrink: 0;
     z-index: 100;
@@ -21,13 +21,15 @@
     line-height: 24px;
     font-weight: normal;
     max-height: 24px;
-    margin-bottom: 20px;
+    margin-top: 24px;
+    padding: 0 20px;
   }
 
   &-menu-list {
-    margin: 0;
-    padding: 0;
+    padding: 0 20px;
     list-style: none;
+    overflow: auto;
+    flex: 1;
 
     &-item {
       cursor: pointer;
@@ -38,8 +40,27 @@
       line-height: 2.5;
       color: @color-60;
 
+      span {
+        flex: 1;
+      }
+
+      i {
+        opacity: 0;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid @color-accent;
+        transition: opacity 0.3s ease-in;
+      }
+
       &:hover {
         color: @color-bb;
+      }
+
+      &:hover i {
+        opacity: 1;
       }
 
       &::before {
@@ -62,39 +83,6 @@
     &-item.active {
       &::before {
         height: 20px;
-      }
-    }
-  }
-}
-
-// toolbar
-.toolbar {
-  &-wrapper {
-    position: absolute;
-    display: flex;
-    width: 240px;
-    left: 0;
-    bottom: 0;
-  }
-
-  &-actions-list {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-
-    &--item {
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      padding: 8px;
-      color: @color-83;
-      transition: color 0.3s ease-in;
-
-      &:hover {
-        color: @color-bb;
-        border: 1px solid @color-accent;
       }
     }
   }

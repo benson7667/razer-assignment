@@ -16,6 +16,7 @@ const mapDispatchToProps = {
   setMenuActiveItem: Actions.SET_MENU_ACTIVE_ITEM,
   updateMenuItem: Actions.EDIT_MENU_ITEM_REQUEST,
   setActiveEditing: Actions.SET_ACTIVE_EDITING,
+  removeMenuItem: Actions.REMOVE_MENU_ITEM_REQUEST,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideBarContainers);

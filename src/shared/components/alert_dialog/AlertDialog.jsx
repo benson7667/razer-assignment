@@ -4,7 +4,7 @@ import { bool, func, string } from "prop-types";
 import { Button } from "../../components";
 import "./styles.less";
 
-class AlertMessage extends Component {
+class AlertDialog extends Component {
   componentDidMount() {
     if (window && typeof window !== "undefined") {
       // prevent scrolling behaviour when modal is visible
@@ -61,7 +61,7 @@ class AlertMessage extends Component {
   }
 }
 
-AlertMessage.propTypes = {
+AlertDialog.propTypes = {
   title: string,
   messages: string,
   backdrop: bool,
@@ -69,8 +69,8 @@ AlertMessage.propTypes = {
   onCancel: func,
 };
 
-AlertMessage.defaultProps = {
+AlertDialog.defaultProps = {
   backdrop: true,
 };
 
-export default AlertMessage;
+export default AlertDialog;

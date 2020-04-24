@@ -1,15 +1,38 @@
 import React, { Component } from "react";
-import { func } from "prop-types";
+import { array, func } from "prop-types";
 import cx from "classnames";
 
+import find from "lodash/find";
+import get from "lodash/get";
+
+import { AlertDialog } from "../../../shared/components";
 import ActionToolbar from "./components/action_toolbar";
-import MenuList from "./components/menu_list";
 
 import "./styles.less";
 
 class SideBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      idToDelete: "",
+      isAlertVisible: false,
+    };
+  }
+
   componentDidMount() {
     this.props.getMenuList();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { menuList } = this.props;
+
+    // successfully delete an item
+    if (menuList.length < prevProps.menuList.length) {
+      this.setState({
+        isAlertVisible: false,
+        idToDelete: "",
+      });
+    }
   }
 
   handleMenuItemClick = (id) => () => {
@@ -29,8 +52,43 @@ class SideBar extends Component {
     this.setState({ inputValue: "" });
   };
 
+  handleToolbarDeleteRequest = (id) => {
+    this.setState({
+      idToDelete: id,
+      isAlertVisible: true,
+    });
+  };
+
+  handleMenuHoverDeleteRequest = (id) => (e) => {
+    e.stopPropagation();
+    this.setState({
+      idToDelete: id,
+      isAlertVisible: true,
+    });
+  };
+
+  generateAlertMessage = () => {
+    const { menuList } = this.props;
+    const { idToDelete } = this.state;
+    const deleteItem = find(menuList, { id: idToDelete });
+    const name = get(deleteItem, "name", "");
+    return `Are you sure want to delete ${name} ?`;
+  };
+
+  handleConfirmDelete = () => {
+    const { idToDelete } = this.state;
+    const { removeMenuItem } = this.props;
+    removeMenuItem(idToDelete);
+  };
+
+  handleCancelDelete = () => {
+    this.setState({ isAlertVisible: false });
+  };
+
   render() {
     const { activeIndex, menuList, isActiveEditing } = this.props;
+
+    console.log(this.state.idToDelete);
 
     return (
       <div className="sidebar-wrapper">
@@ -49,14 +107,29 @@ class SideBar extends Component {
                   })}
                   onClick={this.handleMenuItemClick(id)}
                 >
-                  <span className="flex1">{name}</span>
-                  <i className="fa fa-times"></i>
+                  <span>{name}</span>
+
+                  {!isDefault && (
+                    <i
+                      onClick={this.handleMenuHoverDeleteRequest(id)}
+                      className="fa fa-times"
+                    ></i>
+                  )}
                 </li>
               );
             })}
         </ul>
 
-        <ActionToolbar />
+        <ActionToolbar triggerDelete={this.handleToolbarDeleteRequest} />
+
+        {this.state.idToDelete && this.state.isAlertVisible && (
+          <AlertDialog
+            title="Delete Profile"
+            messages={this.generateAlertMessage()}
+            onConfirm={this.handleConfirmDelete}
+            onCancel={this.handleCancelDelete}
+          />
+        )}
       </div>
     );
   }
@@ -64,6 +137,8 @@ class SideBar extends Component {
 
 SideBar.propTypes = {
   getMenuList: func,
+  removeMenuItem: func,
+  menuList: array,
 };
 
 export default SideBar;

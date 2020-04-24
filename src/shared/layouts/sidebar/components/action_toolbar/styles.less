@@ -2,11 +2,8 @@
 
 .toolbar {
   &-wrapper {
-    position: absolute;
     display: flex;
     width: 240px;
-    left: 0;
-    bottom: 0;
   }
 
   &-actions-list {
@@ -14,10 +11,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 0 20px;
+    margin: 10px 0;
 
     &--item {
       cursor: pointer;
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -27,7 +26,7 @@
 
       &:hover {
         color: @color-bb;
-        border: 1px solid @color-accent;
+        box-shadow: 0 0 1px @color-bb;
       }
     }
 
