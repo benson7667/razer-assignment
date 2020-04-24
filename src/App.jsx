@@ -1,10 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-
-import "./assets/css/index.css";
-import "./assets/fonts/index.css";
-
 import { SideBar, Content } from "./shared/layouts";
 
 const App = () => {
