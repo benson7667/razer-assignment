@@ -7,7 +7,6 @@
     flex-direction: column;
     width: 240px;
     background-color: @color-primary;
-    // padding: 20px;
     height: 100vh;
     flex-shrink: 0;
     z-index: 100;
@@ -22,7 +21,8 @@
     font-weight: normal;
     max-height: 24px;
     margin-top: 24px;
-    padding: 0 20px;
+    padding-left: 30px;
+    padding-right: 20px;
   }
 
   &-menu-list {
@@ -39,28 +39,10 @@
       transition: color 0.3s ease-in-out;
       line-height: 2.5;
       color: @color-60;
-
-      span {
-        flex: 1;
-      }
-
-      i {
-        opacity: 0;
-        width: 25px;
-        height: 25px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid @color-accent;
-        transition: opacity 0.3s ease-in;
-      }
+      font-size: 14px;
 
       &:hover {
         color: @color-bb;
-      }
-
-      &:hover i {
-        opacity: 1;
       }
 
       &::before {
@@ -75,6 +57,34 @@
       &:hover::before {
         height: 20px;
       }
+    }
+
+    &-item .menu-icon {
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &-item .menu-name {
+      flex: 1;
+    }
+
+    &-item .delete-icon {
+      opacity: 0;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid @color-accent;
+      transition: opacity 0.3s ease-in;
+    }
+
+    &-item:hover .delete-icon {
+      opacity: 1;
     }
 
     &-item.active {

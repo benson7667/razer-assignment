@@ -7,6 +7,7 @@ import get from "lodash/get";
 
 import { AlertDialog } from "../../../shared/components";
 import ActionToolbar from "./components/action_toolbar";
+import { sideBarIcon } from "../../../constants";
 
 import "./styles.less";
 
@@ -98,6 +99,12 @@ class SideBar extends Component {
           {menuList.length &&
             menuList.map((menuItem) => {
               const { id, name, isDefault } = menuItem;
+
+              const lowCaseName = name.toLowerCase();
+              const icon = sideBarIcon[lowCaseName]
+                ? sideBarIcon[lowCaseName]
+                : sideBarIcon["custom"];
+
               return (
                 <li
                   key={id}
@@ -107,12 +114,19 @@ class SideBar extends Component {
                   })}
                   onClick={this.handleMenuItemClick(id)}
                 >
-                  <span>{name}</span>
+                  <i
+                    className={cx({
+                      "menu-icon": true,
+                      [icon]: true,
+                    })}
+                  ></i>
+
+                  <span className="menu-name">{name}</span>
 
                   {!isDefault && (
                     <i
                       onClick={this.handleMenuHoverDeleteRequest(id)}
-                      className="fa fa-times"
+                      className="fa fa-times delete-icon"
                     ></i>
                   )}
                 </li>

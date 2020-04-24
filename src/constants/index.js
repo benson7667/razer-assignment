@@ -27,8 +27,10 @@ export const defaultMenuList = [
   },
 ];
 
-export const ALERT = {
-  GENERAL: "GENERAL",
-  DELETE: "DELETE",
-  COFIRM: "CONFIRM",
+export const sideBarIcon = {
+  default: "fa fa-bars fa-lg",
+  game: "fa fa-gamepad fa-lg",
+  music: "fa fa-music fa-lg",
+  movie: "fa fa-film fa-lg",
+  custom: "fa fa-ellipsis-h",
 };
