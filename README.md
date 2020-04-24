@@ -11,8 +11,11 @@ This is an assignment given by Razer Inc to convert their existing assets into r
 - HTML/CSS
 - Babel
 
-### URL
+### Basic Version
 https://boring-brown-c7d082.netlify.app/
+
+### Upgrade Version
+https://practical-tesla-550e41.netlify.app/
 
 ### Get Started
 ```
