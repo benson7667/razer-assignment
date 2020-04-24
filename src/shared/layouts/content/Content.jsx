@@ -1,6 +1,7 @@
 import React from "react";
 import { array, bool, string, number } from "prop-types";
-import "./styles.css";
+// import "./styles.css";
+import "./styles.less";
 
 const Content = (props) => {
   const { activeIndex, autoSaveCount, isAutoSaving, menuList } = props;
@@ -10,7 +11,47 @@ const Content = (props) => {
 
     if (currentActiveItem && currentActiveItem.id && currentActiveItem.name) {
       return (
-        <div className="sub-title flex">
+        <div>
+          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
+          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
+          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
+
+          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
+          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
+          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
+
+          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
+          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
+          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
+
+          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
+          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
+          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
+
+          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
+          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
+          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
+
+          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
+          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
+          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
+
+          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
+          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
+          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
+
+          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
+          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
+          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
+
+          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
+          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
+          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
+
+          <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
+          <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
+          <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
+
           <h1 className="eq-title">{`Profile Name: ${currentActiveItem.name}`}</h1>
           <h1 className="eq-title">{`Profile ID: ${currentActiveItem.id}`}</h1>
           <h1 className="eq-title">{`AutoSaveCount: ${autoSaveCount}`}</h1>
@@ -27,7 +68,7 @@ const Content = (props) => {
     return null;
   };
 
-  return <div className="thx-window">{getSelectedProfileName()}</div>;
+  return <div className="app-content-wrapper">{getSelectedProfileName()}</div>;
 };
 
 Content.propTypes = {

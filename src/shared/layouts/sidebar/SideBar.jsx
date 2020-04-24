@@ -57,21 +57,6 @@ class SideBar extends Component {
         </ul>
 
         <ActionToolbar />
-
-        {/* <div className="toolbar-wrapper">
-          <div className="toolbar-actions-list">
-            <AiOutlineArrowUp className="toolbar-actions-list--item" />
-            <AiOutlineArrowDown className="toolbar-actions-list--item" />
-            <AiOutlineEdit className="toolbar-actions-list--item" />
-            <AiOutlineDelete className="toolbar-actions-list--item" />
-            <AiOutlinePlus className="toolbar-actions-list--item" />
-          </div>
-        </div> */}
-
-        {/* <div className="drawer-select">
-          <MenuList />
-          <ActionToolbar />
-        </div> */}
       </div>
     );
   }

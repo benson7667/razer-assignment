@@ -1,14 +1,28 @@
 import React, { Component } from "react";
-import { string } from "prop-types";
-import { connect } from "react-redux";
+import { bool, func, string } from "prop-types";
 
 import { Button } from "../../components";
 import "./styles.less";
 
 class AlertMessage extends Component {
+  componentDidMount() {
+    if (window && typeof window !== "undefined") {
+      // prevent scrolling behaviour when modal is visible
+      const body = document.querySelector("body");
+      body.style.overflow = "hidden";
+    }
+  }
+
+  componentWillUnmount() {
+    const body = document.querySelector("body");
+    body.style.overflow = null;
+  }
+
   handleBackDrop = (e) => {
-    if (e.target.className.indexOf("alert-message-laye")) {
-      // this.props.onClose();
+    const { backdrop, onCancel } = this.props;
+    if (!backdrop) return;
+    if (e.target.className.indexOf("alert-message-layer") > -1) {
+      onCancel();
     }
   };
 
@@ -17,18 +31,30 @@ class AlertMessage extends Component {
   };
 
   render() {
-    const { title, messages, onConfirm } = this.props;
+    const { title, messages, onConfirm, onCancel } = this.props;
     return (
       <div className="alert-message-layer" onClick={this.handleBackDrop}>
         <div className="alert-message-box">
           <div className="alert-message-title">{title}</div>
-          <p>{messages}</p>
-          {/* <Button
-            className="razer-btn delete"
-            onClick={onConfirm}
-            value="Delete"
-          /> */}
-          <button onClick={this.handleOnConfirm}>delete</button>
+          <p className="alert-message-descrp">{messages}</p>
+
+          <div className="alert-message-actions">
+            {onCancel && (
+              <Button
+                className="razer-btn secondary"
+                onClick={onCancel}
+                value="Cancel"
+              />
+            )}
+
+            {onConfirm && (
+              <Button
+                className="razer-btn danger"
+                onClick={onConfirm}
+                value="Delete"
+              />
+            )}
+          </div>
         </div>
       </div>
     );
@@ -38,11 +64,13 @@ class AlertMessage extends Component {
 AlertMessage.propTypes = {
   title: string,
   messages: string,
+  backdrop: bool,
+  onConfirm: func,
+  onCancel: func,
 };
 
-const mapStateToProps = (state) => ({
-  title: state.systems.alert.title,
-  onConfirm: state.systems.alert.onConfirm,
-});
+AlertMessage.defaultProps = {
+  backdrop: true,
+};
 
-export default connect(mapStateToProps, null)(AlertMessage);
+export default AlertMessage;

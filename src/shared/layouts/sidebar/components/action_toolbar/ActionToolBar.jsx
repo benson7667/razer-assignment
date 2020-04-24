@@ -5,6 +5,8 @@ import { array, func, string } from "prop-types";
 import find from "lodash/find";
 import get from "lodash/get";
 
+import { AlertMessage } from "../../../../../shared/components";
+
 import "./styles.less";
 
 class ActionToolbar extends Component {
@@ -13,6 +15,7 @@ class ActionToolbar extends Component {
     this.deleteBoxRef = React.createRef();
     this.state = {
       isDeleteAlertBoxVisible: false,
+      isAlertBoxVisible: false,
     };
   }
 
@@ -97,15 +100,7 @@ class ActionToolbar extends Component {
       }
 
       case "ACTION_DELETE": {
-        this.props.openAlertBox({
-          alertName: "ASDASDASD",
-          title: "DELETE ITEM",
-          message: "MESAGE......",
-          onConfirm: this.props.closeAlertBox(),
-        });
-        // return this.setState((prevState) => ({
-        //   isDeleteAlertBoxVisible: !prevState.isDeleteAlertBoxVisible,
-        // }));
+        return this.setState({ isAlertBoxVisible: true });
       }
 
       default:
@@ -117,15 +112,22 @@ class ActionToolbar extends Component {
     console.log("svg", e.target.className);
   };
 
-  getDeleteItemName = () => {
+  handleOnConfirm = () => {};
+
+  handleOnCancel = () => {
+    console.log("asdasd");
+    this.setState({ isAlertBoxVisible: false });
+  };
+
+  generateAlertMessage = () => {
     const { activeIndex, menuList } = this.props;
     const deleteItem = find(menuList, { id: activeIndex });
-    return get(deleteItem, "name", "");
+    const name = get(deleteItem, "name", "");
+    return `Are you sure want to delete ${name} ?`;
   };
 
   render() {
     const { activeIndex, menuList } = this.props;
-    const { isDeleteAlertBoxVisible } = this.state;
 
     return (
       <>
@@ -168,6 +170,15 @@ class ActionToolbar extends Component {
               })}
             ></i>
           </div>
+
+          {this.state.isAlertBoxVisible && (
+            <AlertMessage
+              title="Delete Profile"
+              messages={this.generateAlertMessage()}
+              onConfirm={this.handleOnConfirm}
+              onCancel={this.handleOnCancel}
+            />
+          )}
         </div>
 
         {/* <div

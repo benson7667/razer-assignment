@@ -3,10 +3,10 @@ import { AppContainer, Content, SideBar } from "./shared/layouts";
 
 const App = () => {
   return (
-    <AppContainer>
+    <div className="app-container">
       <SideBar />
       <Content />
-    </AppContainer>
+    </div>
   );
 };
 

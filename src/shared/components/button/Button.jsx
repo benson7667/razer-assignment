@@ -18,4 +18,8 @@ Button.propTypes = {
   onClick: func.isRequired,
 };
 
+Button.defaultProps = {
+  className: "razer-btn primary",
+};
+
 export default Button;
