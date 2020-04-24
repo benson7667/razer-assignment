@@ -97,9 +97,15 @@ class ActionToolbar extends Component {
       }
 
       case "ACTION_DELETE": {
-        return this.setState((prevState) => ({
-          isDeleteAlertBoxVisible: !prevState.isDeleteAlertBoxVisible,
-        }));
+        this.props.openAlertBox({
+          alertName: "ASDASDASD",
+          title: "DELETE ITEM",
+          message: "MESAGE......",
+          onConfirm: this.props.closeAlertBox(),
+        });
+        // return this.setState((prevState) => ({
+        //   isDeleteAlertBoxVisible: !prevState.isDeleteAlertBoxVisible,
+        // }));
       }
 
       default:

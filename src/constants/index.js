@@ -26,3 +26,9 @@ export const defaultMenuList = [
     isDefault: true,
   },
 ];
+
+export const ALERT = {
+  GENERAL: "GENERAL",
+  DELETE: "DELETE",
+  COFIRM: "CONFIRM",
+};

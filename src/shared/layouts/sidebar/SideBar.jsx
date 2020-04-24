@@ -42,6 +42,7 @@ class SideBar extends Component {
               const { id, name, isDefault } = menuItem;
               return (
                 <li
+                  key={id}
                   className={cx({
                     "sidebar-menu-list-item": true,
                     active: id === activeIndex,
