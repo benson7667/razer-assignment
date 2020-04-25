@@ -133,12 +133,27 @@ class MenuList extends Component {
     }, 0);
   };
 
+  showScrollBar = () => {
+    const elem = document.querySelector(".menu-list");
+    if (elem) elem.classList.remove("hide-scrollbar");
+  };
+
+  hideScrollBar = () => {
+    const elem = document.querySelector(".menu-list");
+    if (elem) elem.classList.add("hide-scrollbar");
+  };
+
   render() {
     const { activeIndex, menuList, isActiveEditing } = this.props;
 
     return (
       <>
-        <ul className="menu-list" ref={this.scrollableRef}>
+        <ul
+          className="menu-list hide-scrollbar"
+          onMouseEnter={this.showScrollBar}
+          onMouseLeave={this.hideScrollBar}
+          ref={this.scrollableRef}
+        >
           {menuList.length &&
             menuList.map((menuItem) => {
               const { id, name, isDefault } = menuItem;
