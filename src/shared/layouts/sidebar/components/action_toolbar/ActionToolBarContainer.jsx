@@ -9,6 +9,7 @@ const ActionToolBarContainer = (props) => <ActionToolBar {...props} />;
 const mapStateToProps = (state) => ({
   menuList: state.sideBar.menuList,
   activeIndex: state.sideBar.activeIndex,
+  isActiveEditing: state.sideBar.isActiveEditing,
 });
 
 const mapDispatchToProps = {

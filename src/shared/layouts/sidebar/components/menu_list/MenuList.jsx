@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import cx from "classnames";
-import findIndex from "lodash/findIndex";
 import find from "lodash/find";
 
+import { sideBarIcon } from "../../../../../constants";
 import { Input } from "../../../../components";
 import { Actions } from "../../actions";
 import "./styles.less";
@@ -11,6 +11,7 @@ import "./styles.less";
 class MenuList extends Component {
   constructor(props) {
     super(props);
+    this.scrollableRef = React.createRef();
     this.state = {
       inputValue: "",
     };
@@ -39,26 +40,27 @@ class MenuList extends Component {
       this.setState({ inputValue });
     }
 
-    // user add a new menu item, scroll to bottom
-    const currentActiveIndex = findIndex(menuList, { id: activeIndex });
-    if (currentActiveIndex === menuList.length - 1) {
-      const parent = document.querySelector("#profileList");
-      parent.scrollTo(0, parent.scrollHeight);
-    }
-
     if (prevProps.activeIndex !== activeIndex) {
-      const parent = document.querySelector(".scrollable");
-      const element = document.querySelector(`.menu-item-${activeIndex}`);
+      const parent = document.querySelector(".menu-list");
+      const element = document.getElementsByClassName(
+        "menu-list-item active"
+      )[0];
+      const profileTitleHeight = 57;
+      const top = parent.scrollTop;
+      const offset = element.offsetTop - profileTitleHeight - top;
+      const scrollableHeight = this.scrollableRef.current.clientHeight;
+
+      // console.log({ top, offsetTop: element.offsetTop, offset });
+
       if (!element || !parent) return;
 
-      const top = parent.scrollTop;
-      const offset = element.offsetTop - top;
-
-      // height per item is 30
-      if (offset >= 150) {
-        parent.scrollTo(0, top + offset - 150);
+      if (offset >= scrollableHeight) {
+        parent.scrollTo(
+          0,
+          top + offset - scrollableHeight + profileTitleHeight
+        );
       } else if (offset <= 0) {
-        parent.scrollTo(0, top + offset);
+        parent.scrollTo(0, top + offset - profileTitleHeight);
       }
     }
   }
@@ -66,12 +68,16 @@ class MenuList extends Component {
   handleListenClick = (e) => {
     const { isActiveEditing } = this.props;
 
-    // user is clicking edit button / input field, do nothing
-    if (e.target.className.indexOf("edit") > -1) return;
-    if (e.target.tagName.toUpperCase() === "INPUT") return;
+    // when user click edit button, do nothing
+    if (e.target.className.indexOf("ACTION_EDIT") > -1) return;
 
-    // user is clicking anywhere and when input field is focus
-    if (isActiveEditing) this.unfocusAndSave();
+    // when input is active and user click main window, save value
+    if (
+      isActiveEditing &&
+      e.target.className.indexOf("app-content-wrapper") > -1
+    ) {
+      this.closeInputAndSave();
+    }
   };
 
   handleListenKeyDown = (e) => {
@@ -86,11 +92,11 @@ class MenuList extends Component {
     }
 
     // { 13: Enter }
-    if (e.keyCode === 13) this.unfocusAndSave();
+    if (e.keyCode === 13) this.closeInputAndSave();
   };
 
   // close the input field and save the value
-  unfocusAndSave = () => {
+  closeInputAndSave = () => {
     const { activeIndex, setActiveEditing, updateMenuItem } = this.props;
     const { inputValue } = this.state;
     setActiveEditing(false);
@@ -109,7 +115,8 @@ class MenuList extends Component {
 
   handleMenuItemClick = (id) => (e) => {
     const { isActiveEditing, setMenuActiveItem } = this.props;
-    return isActiveEditing ? this.unfocusAndSave() : setMenuActiveItem(id);
+    if (isActiveEditing && e.target.tagName.toUpperCase() === "INPUT") return;
+    return isActiveEditing ? this.closeInputAndSave() : setMenuActiveItem(id);
   };
 
   handleOnChange = (e) => {
@@ -128,48 +135,100 @@ class MenuList extends Component {
 
   render() {
     const { activeIndex, menuList, isActiveEditing } = this.props;
-    const { inputValue } = this.state;
 
     return (
-      <div id="profileList" className="scrollable">
-        {menuList.length &&
-          menuList.map((menuItem) => {
-            const { id, name, icon, isDefault } = menuItem;
+      <>
+        <ul className="menu-list" ref={this.scrollableRef}>
+          {menuList.length &&
+            menuList.map((menuItem) => {
+              const { id, name, isDefault } = menuItem;
 
-            return (
-              <div
-                key={menuItem.id}
-                className={`relative menu-item-${menuItem.id}`}
-              >
-                <div
+              const lowCaseName = name.toLowerCase();
+              const icon = sideBarIcon[lowCaseName]
+                ? sideBarIcon[lowCaseName]
+                : sideBarIcon["custom"];
+
+              return (
+                <li
+                  key={id}
                   className={cx({
+                    "menu-list-item": true,
                     active: id === activeIndex,
-                    "profile-item": true,
-                    [icon]: true,
                   })}
                   onClick={this.handleMenuItemClick(id)}
                 >
-                  {name}
-                </div>
-
-                {isActiveEditing && !isDefault && (
-                  <Input
-                    autoFocus
+                  <i
                     className={cx({
-                      "profile-item": true,
-                      show: id === activeIndex && isActiveEditing,
+                      "menu-icon": true,
+                      [icon]: true,
                     })}
-                    onFocus={this.handleFocus}
-                    placeholder="Enter Profile Name"
-                    maxLength={25}
-                    value={inputValue}
-                    onChange={this.handleOnChange}
-                  />
-                )}
-              </div>
-            );
-          })}
-      </div>
+                  ></i>
+
+                  <span className="menu-name">{name}</span>
+
+                  {!isDefault && (
+                    <i
+                      onClick={this.props.triggerDelete(id)}
+                      className="fa fa-times delete-icon"
+                    ></i>
+                  )}
+
+                  {isActiveEditing && activeIndex === id && (
+                    <Input
+                      autoFocus
+                      onFocus={this.handleFocus}
+                      className="menu-list-item--input"
+                      value={this.state.inputValue}
+                      placeholder="Enter Profile Name"
+                      maxLength={25}
+                      onChange={this.handleOnChange}
+                    />
+                  )}
+                </li>
+              );
+            })}
+        </ul>
+      </>
+
+      // <div id="profileList" className="scrollable">
+      //   {menuList.length &&
+      //     menuList.map((menuItem) => {
+      //       const { id, name, icon, isDefault } = menuItem;
+
+      //       return (
+      //         <div
+      //           key={menuItem.id}
+      //           className={`relative menu-item-${menuItem.id}`}
+      //         >
+      //           <div
+      //             className={cx({
+      //               active: id === activeIndex,
+      //               "profile-item": true,
+      //               [icon]: true,
+      //             })}
+      //             onClick={this.handleMenuItemClick(id)}
+      //           >
+      //             {name}
+      //           </div>
+
+      //           {isActiveEditing && !isDefault && (
+      //             <Input
+      //               autoFocus
+      //               className={cx({
+      //                 "profile-item": true,
+      //                 show: id === activeIndex && isActiveEditing,
+      //               })}
+      //               onFocus={this.handleFocus}
+      //               placeholder="Enter Profile Name"
+      //               maxLength={25}
+      //               value={inputValue}
+      //               onChange={this.handleOnChange}
+      //             />
+      //           )}
+      //         </div>
+      //       );
+      //     })}
+      // </div>
     );
   }
 }

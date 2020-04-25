@@ -59,7 +59,7 @@ class ActionToolbar extends Component {
   };
 
   render() {
-    const { activeIndex, menuList } = this.props;
+    const { activeIndex, isActiveEditing, menuList } = this.props;
 
     return (
       <>
@@ -71,7 +71,9 @@ class ActionToolbar extends Component {
             className={cx({
               "MOVE_UP fa fa-arrow-up": true,
               "toolbar-actions-list--item": true,
-              disabled: menuList.length && activeIndex === menuList[0].id,
+              disabled:
+                (menuList.length && activeIndex === menuList[0].id) ||
+                isActiveEditing,
             })}
           ></i>
 
@@ -80,8 +82,9 @@ class ActionToolbar extends Component {
               "MOVE_DOWN fa fa-arrow-down": true,
               "toolbar-actions-list--item": true,
               disabled:
-                menuList.length &&
-                activeIndex === menuList[menuList.length - 1].id,
+                (menuList.length &&
+                  activeIndex === menuList[menuList.length - 1].id) ||
+                isActiveEditing,
             })}
           ></i>
 
@@ -89,7 +92,7 @@ class ActionToolbar extends Component {
             className={cx({
               "ACTION_EDIT fa fa-pencil": true,
               "toolbar-actions-list--item": true,
-              disabled: this.isDefaultItem(),
+              disabled: this.isDefaultItem() || isActiveEditing,
             })}
           ></i>
 
@@ -97,7 +100,7 @@ class ActionToolbar extends Component {
             className={cx({
               "ACTION_DELETE fa fa-trash": true,
               "toolbar-actions-list--item": true,
-              disabled: this.isDefaultItem(),
+              disabled: this.isDefaultItem() || isActiveEditing,
             })}
           ></i>
 
@@ -105,6 +108,7 @@ class ActionToolbar extends Component {
             className={cx({
               "ACTION_ADD fa fa-plus": true,
               "toolbar-actions-list--item": true,
+              disabled: isActiveEditing,
             })}
           ></i>
         </div>
