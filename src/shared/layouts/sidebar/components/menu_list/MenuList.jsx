@@ -189,46 +189,6 @@ class MenuList extends Component {
             })}
         </ul>
       </>
-
-      // <div id="profileList" className="scrollable">
-      //   {menuList.length &&
-      //     menuList.map((menuItem) => {
-      //       const { id, name, icon, isDefault } = menuItem;
-
-      //       return (
-      //         <div
-      //           key={menuItem.id}
-      //           className={`relative menu-item-${menuItem.id}`}
-      //         >
-      //           <div
-      //             className={cx({
-      //               active: id === activeIndex,
-      //               "profile-item": true,
-      //               [icon]: true,
-      //             })}
-      //             onClick={this.handleMenuItemClick(id)}
-      //           >
-      //             {name}
-      //           </div>
-
-      //           {isActiveEditing && !isDefault && (
-      //             <Input
-      //               autoFocus
-      //               className={cx({
-      //                 "profile-item": true,
-      //                 show: id === activeIndex && isActiveEditing,
-      //               })}
-      //               onFocus={this.handleFocus}
-      //               placeholder="Enter Profile Name"
-      //               maxLength={25}
-      //               value={inputValue}
-      //               onChange={this.handleOnChange}
-      //             />
-      //           )}
-      //         </div>
-      //       );
-      //     })}
-      // </div>
     );
   }
 }
