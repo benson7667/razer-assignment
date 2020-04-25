@@ -14,6 +14,7 @@ import "./styles.less";
 class SideBar extends Component {
   constructor(props) {
     super(props);
+    this.scrollableRef = React.createRef();
     this.state = {
       idToDelete: "",
       isAlertVisible: false,
@@ -25,7 +26,7 @@ class SideBar extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { menuList } = this.props;
+    const { activeIndex, menuList } = this.props;
 
     // successfully delete an item
     if (menuList.length < prevProps.menuList.length) {
@@ -33,6 +34,34 @@ class SideBar extends Component {
         isAlertVisible: false,
         idToDelete: "",
       });
+    }
+
+    //
+    if (prevProps.activeIndex !== activeIndex) {
+      const parent = document.querySelector(".sidebar-menu-list");
+      const element = document.getElementsByClassName(
+        `sidebar-menu-list-item active`
+      )[0];
+
+      if (!element || !parent) return;
+
+      const profileTitleHeight = 58;
+      const top = parent.scrollTop;
+      const offset = element.offsetTop - profileTitleHeight - top;
+
+      console.log({ offset, top, offsetTop: element.offsetTop });
+
+      const scrollableHeight = this.scrollableRef.current.clientHeight;
+      console.log(scrollableHeight);
+      // height per item is 30
+      if (offset >= scrollableHeight) {
+        parent.scrollTo(
+          0,
+          top + offset - scrollableHeight + profileTitleHeight
+        );
+      } else if (offset <= 0) {
+        parent.scrollTo(0, top + offset - profileTitleHeight);
+      }
     }
   }
 
@@ -89,13 +118,11 @@ class SideBar extends Component {
   render() {
     const { activeIndex, menuList, isActiveEditing } = this.props;
 
-    console.log(this.state.idToDelete);
-
     return (
       <div className="sidebar-wrapper">
         <div className="sidebar-title">Profile List</div>
 
-        <ul className="sidebar-menu-list">
+        <ul className="sidebar-menu-list" ref={this.scrollableRef}>
           {menuList.length &&
             menuList.map((menuItem) => {
               const { id, name, isDefault } = menuItem;
