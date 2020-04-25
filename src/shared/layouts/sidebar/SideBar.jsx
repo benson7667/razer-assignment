@@ -36,24 +36,21 @@ class SideBar extends Component {
       });
     }
 
-    //
+    // adjust position when active item out of the view
     if (prevProps.activeIndex !== activeIndex) {
       const parent = document.querySelector(".sidebar-menu-list");
       const element = document.getElementsByClassName(
         `sidebar-menu-list-item active`
       )[0];
+      const profileTitleHeight = 57;
+      const top = parent.scrollTop;
+      const offset = element.offsetTop - profileTitleHeight - top;
+      const scrollableHeight = this.scrollableRef.current.clientHeight;
+
+      console.log({ top, offsetTop: element.offsetTop, offset });
 
       if (!element || !parent) return;
 
-      const profileTitleHeight = 58;
-      const top = parent.scrollTop;
-      const offset = element.offsetTop - profileTitleHeight - top;
-
-      console.log({ offset, top, offsetTop: element.offsetTop });
-
-      const scrollableHeight = this.scrollableRef.current.clientHeight;
-      console.log(scrollableHeight);
-      // height per item is 30
       if (offset >= scrollableHeight) {
         parent.scrollTo(
           0,
