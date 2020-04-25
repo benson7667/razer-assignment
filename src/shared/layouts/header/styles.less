@@ -1,0 +1,39 @@
+@import "../../../assets/styles/colors.less";
+
+.header {
+  &-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    margin-left: 240px;
+    background-color: @color-primary;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-logo {
+    &-wrapper {
+      display: flex;
+      justify-content: center;
+
+      img {
+        height: 14px;
+      }
+    }
+  }
+
+  &-authorization {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    padding: 4px 10px;
+    width: 140px;
+  }
+}

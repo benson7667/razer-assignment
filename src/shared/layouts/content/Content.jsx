@@ -1,6 +1,6 @@
 import React from "react";
 import { array, bool, string, number } from "prop-types";
-// import "./styles.css";
+
 import "./styles.less";
 
 const Content = (props) => {
