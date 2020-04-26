@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../../../shared/components";
+import { Authorization } from "../../../shared/connected_components";
 import "./styles.less";
 
 const Header = () => {
@@ -12,12 +12,8 @@ const Header = () => {
         />
       </div>
 
-      <div className="header-authorization">
-        <Button
-          onClick={() => {}}
-          value="LOGIN"
-          className="razer-btn primary razer-fonts"
-        />
+      <div className="header-authorization-wrapper">
+        <Authorization />
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
 /* global */
-html,
+/* html,
 body {
   background-color: #666;
   color: #ccc;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+  user-select: none;
   margin: 0;
-}
+} */
 html {
   scroll-behavior: smooth;
 }

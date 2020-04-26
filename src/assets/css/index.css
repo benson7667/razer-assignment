@@ -6,6 +6,11 @@ html,
 body {
   margin: 0;
   padding: 0;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: #ccc;
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+  min-width: 1080px;
 }
 
 @import "./main.css";
