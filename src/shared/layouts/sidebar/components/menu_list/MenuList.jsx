@@ -50,8 +50,6 @@ class MenuList extends Component {
       const offset = element.offsetTop - profileTitleHeight - top;
       const scrollableHeight = this.scrollableRef.current.clientHeight;
 
-      // console.log({ top, offsetTop: element.offsetTop, offset });
-
       if (!element || !parent) return;
 
       if (offset >= scrollableHeight) {
@@ -68,13 +66,16 @@ class MenuList extends Component {
   handleListenClick = (e) => {
     const { isActiveEditing } = this.props;
 
+    console.log(this.scrollableRef.current);
+
     // when user click edit button, do nothing
     if (e.target.className.indexOf("ACTION_EDIT") > -1) return;
 
     // when input is active and user click main window, save value
     if (
-      isActiveEditing &&
-      e.target.className.indexOf("app-content-wrapper") > -1
+      (isActiveEditing &&
+        e.target.className.indexOf("app-content-wrapper") > -1) ||
+      e.target === this.scrollableRef.current
     ) {
       this.closeInputAndSave();
     }

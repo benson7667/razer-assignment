@@ -17,11 +17,11 @@ const Jumbotron = (props) => {
         <div className="jumbotron-body">
           <div className="welcome-title">Hi, Welcome</div>
           <p>
-            This is another version I personally build for fun where I rewrite
-            most of the css using LESS.
+            This is another version I personally build for fun. I redesign and
+            rewrite most of the css using LESS.
           </p>
           <p>
-            The base functionality is still remain and I continuously adding new
+            The functionality remain the same but I continuously adding new
             elements into it. Hope you will like it ! 🙂🙂🙂
           </p>
 
