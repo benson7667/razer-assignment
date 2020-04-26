@@ -3,9 +3,9 @@ import { func, string, object } from "prop-types";
 import "./styles.less";
 
 const Button = (props) => {
-  const { className, styles, onClick, value } = props;
+  const { className, style, onClick, value } = props;
   return (
-    <button className={className} styles={{ ...styles }} onClick={onClick}>
+    <button className={className} style={{ ...style }} onClick={onClick}>
       {value}
     </button>
   );
@@ -13,7 +13,7 @@ const Button = (props) => {
 
 Button.propTypes = {
   className: string,
-  styles: object,
+  style: object,
   value: string.isRequired,
   onClick: func.isRequired,
 };

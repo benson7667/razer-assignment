@@ -1,5 +1,6 @@
 import React from "react";
 import { func, bool, number, object, string } from "prop-types";
+import "./styles.less";
 
 const Input = (props) => {
   const {
@@ -10,6 +11,7 @@ const Input = (props) => {
     maxLength,
     placeholder,
     style,
+    type,
     value,
   } = props;
 
@@ -22,6 +24,7 @@ const Input = (props) => {
       onFocus={onFocus}
       placeholder={placeholder}
       style={{ ...style }}
+      type={type}
       value={value}
     />
   );

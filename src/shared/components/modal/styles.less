@@ -1,0 +1,52 @@
+@import "../../../assets/styles/colors.less";
+
+.razer-modal {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 17, 17, 0.7);
+
+  &-wrapper {
+    width: 700px;
+    border: 1px solid black;
+    background-color: @color-primary;
+  }
+  &-wrapper.small {
+    width: 450px;
+  }
+  &-wrapper.medium {
+    width: 700px;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+  &__header .modal-close {
+    padding: 10px;
+  }
+  &__header .modal-title {
+    align-self: center;
+  }
+
+  &__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    overflow: auto;
+    padding: 20px;
+  }
+
+  &__footer {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
