@@ -1,9 +1,11 @@
+@import "../../../assets/styles/global.less";
+
 .app-content {
   &-wrapper {
     background-color: #222;
     position: relative;
     padding: 30px 24px 40px;
-    margin-left: 240px;
-    min-height: 100vh;
+    margin-left: @sideBarWidth;
+    min-height: calc(100vh - @headerHeight);
   }
 }

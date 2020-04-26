@@ -1,11 +1,12 @@
 @import "../../../assets/styles/colors.less";
+@import "../../../assets/styles/global.less";
 
 .header {
   &-wrapper {
     position: sticky;
     top: 0;
     z-index: 1000;
-    margin-left: 240px;
+    margin-left: @sideBarWidth;
     background-color: @color-primary;
     height: 55px;
     display: flex;

@@ -1,11 +1,12 @@
 @import "../../../assets/styles/colors.less";
+@import "../../../assets/styles/global.less";
 
 .sidebar {
   &-wrapper {
     position: fixed;
     display: flex;
     flex-direction: column;
-    width: 240px;
+    width: @sideBarWidth;
     background-color: @color-primary;
     height: 100vh;
     flex-shrink: 0;
