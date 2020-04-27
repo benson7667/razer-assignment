@@ -1,15 +1,54 @@
 import React, { Component } from "react";
 import { bool } from "prop-types";
-import { Button, Input, Modal } from "../../components";
+import { Button, Modal } from "../../components";
+import { LoginForm, RegisterForm } from "./form";
 import RazerLogoIcon from "../../../assets/logo/razer-logo-icon.svg";
 import "./styles.less";
 
 class Authorization extends Component {
   state = {
     isAuthModalVisible: false,
+    formName: "login",
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { isAuthModalVisible, formName } = this.state;
+
+    // user switching tab to 'register' and then close the modal, set it back to register
+    if (
+      prevState.isAuthModalVisible !== isAuthModalVisible &&
+      !isAuthModalVisible &&
+      formName === "register"
+    ) {
+      this.setState({
+        formName: "login",
+      });
+    }
+  }
+
+  handleToggleAuthModal = () => {
+    this.setState((prevState) => ({
+      isAuthModalVisible: !prevState.isAuthModalVisible,
+    }));
+  };
+
+  handleLogin = (value) => {
+    console.log(value);
+  };
+
+  handleRegister = (value) => {
+    console.log(value);
+  };
+
+  handleSwitchForm = () => {
+    this.setState((prevState) => ({
+      formName: prevState.formName === "login" ? "register" : "login",
+    }));
   };
 
   renderAuthModalHeader = () => {
+    const { formName } = this.state;
+
     return (
       <div className="auth-modal__header">
         <img
@@ -17,7 +56,9 @@ class Authorization extends Component {
           alt="razer-logo"
           src={RazerLogoIcon}
         />
-        <span className="auth-modal__header-title">LOGIN</span>
+        <span className="auth-modal__header-title">
+          {formName.toUpperCase()}
+        </span>
         <img
           className="auth-modal__header-logo"
           alt="razer-logo"
@@ -27,19 +68,9 @@ class Authorization extends Component {
     );
   };
 
-  handleToggleAuthModal = () => {
-    this.setState((prevState) => ({
-      isAuthModalVisible: !prevState.isAuthModalVisible,
-    }));
-  };
-
-  handleOnSubmit = (e) => {
-    e.preventDefault();
-    console.log("login....");
-  };
-
   render() {
     const { isUserAuthenticated } = this.props;
+    const { isAuthModalVisible, formName } = this.state;
 
     return (
       <>
@@ -62,7 +93,7 @@ class Authorization extends Component {
           )}
         </div>
 
-        {this.state.isAuthModalVisible && (
+        {isAuthModalVisible && (
           <Modal
             title="Modal Title"
             header={this.renderAuthModalHeader()}
@@ -71,47 +102,19 @@ class Authorization extends Component {
             onConfirm={() => console.log("confirm")}
             size="small"
           >
-            <form
-              onSubmit={this.handleOnSubmit}
-              className="auth-modal__body-form"
-            >
-              <Input className="razer-input" placeholder="Enter your email" />
-              <Input
-                className="razer-input"
-                placeholder="Enter your password"
-                type="password"
+            {formName === "login" && (
+              <LoginForm
+                handleLogin={this.handleLogin}
+                handleSwitchForm={this.handleSwitchForm}
               />
-              <div className="razer-forgot-password">Forgot Password?</div>
+            )}
 
-              <Button
-                value="LOGIN"
-                style={{ width: "100%" }}
-                onClick={this.handleOnSubmit}
+            {formName === "register" && (
+              <RegisterForm
+                handleRegister={this.handleRegister}
+                handleSwitchForm={this.handleSwitchForm}
               />
-            </form>
-
-            <div className="auth-modal__body-social-provider">
-              <div className="text-connect--wrap">
-                <div className="horizontal-line" />
-                <span className="text-connect">or connect with</span>
-                <div className="horizontal-line" />
-              </div>
-
-              <div className="social-icons">
-                <div className="social-icons--fb" />
-                <div className="social-icons--google" />
-                <div className="social-icons--twitch" />
-              </div>
-            </div>
-
-            <div className="auth-modal__body-register">
-              <Button
-                className="razer-btn secondary"
-                value="REGISTER A NEW ACCOUNT"
-                style={{ width: "100%" }}
-                onClick={() => console.log("register...")}
-              />
-            </div>
+            )}
           </Modal>
         )}
       </>

@@ -7,7 +7,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   mode: "production",
-  entry: "./src/index.js",
+  entry: ["@babel/polyfill", "./src/index.js"],
   output: {
     filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "./dist"),

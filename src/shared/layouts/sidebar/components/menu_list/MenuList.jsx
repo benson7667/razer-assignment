@@ -66,8 +66,6 @@ class MenuList extends Component {
   handleListenClick = (e) => {
     const { isActiveEditing } = this.props;
 
-    console.log(this.scrollableRef.current);
-
     // when user click edit button, do nothing
     if (e.target.className.indexOf("ACTION_EDIT") > -1) return;
 

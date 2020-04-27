@@ -50,21 +50,21 @@
       width: 100%;
     }
     &-form .razer-forgot-password {
+      cursor: pointer;
       text-align: right;
       font-size: 14px;
       color: @color-83;
-      // margin: 10px 0;
       margin-top: 5px;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
+
+      &:hover {
+        color: white;
+      }
     }
 
     &-social-provider {
-      margin: 20px 0;
       padding: 0 15px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      // justify-content: center;
+      margin-top: 14px;
     }
     &-social-provider .text-connect--wrap {
       display: flex;
@@ -107,6 +107,10 @@
     &-register {
       padding: 0 15px;
       margin-bottom: 10px;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: flex-end;
     }
   }
 

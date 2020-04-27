@@ -1,4 +1,5 @@
 import React from "react";
+import cx from "classnames";
 import { func, bool, number, object, string } from "prop-types";
 import "./styles.less";
 
@@ -13,20 +14,30 @@ const Input = (props) => {
     style,
     type,
     value,
+    validateStatus,
+    help,
   } = props;
 
   return (
-    <input
-      autoFocus={autoFocus}
-      className={className}
-      maxLength={maxLength}
-      onChange={onChange}
-      onFocus={onFocus}
-      placeholder={placeholder}
-      style={{ ...style }}
-      type={type}
-      value={value}
-    />
+    <div className="razer-input-wrapper">
+      <input
+        autoFocus={autoFocus}
+        className={cx({
+          [className]: true,
+          error: validateStatus && validateStatus.error,
+          // TODO: can add warning, success by checking validateStatus.xxx
+        })}
+        maxLength={maxLength}
+        onChange={onChange}
+        onFocus={onFocus}
+        placeholder={placeholder}
+        style={{ ...style }}
+        type={type}
+        value={value}
+      />
+
+      {help && <span className="razer-input--help">{help}</span>}
+    </div>
   );
 };
 
@@ -39,6 +50,8 @@ Input.propTypes = {
   placeholder: string,
   style: object,
   value: string,
+  validateStatus: object,
+  help: string,
 };
 
 Input.defaultProps = {
