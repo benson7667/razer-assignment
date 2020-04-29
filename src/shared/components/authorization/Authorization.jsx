@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { bool } from "prop-types";
-import { Button, Modal } from "../../components";
+import { bool, func } from "prop-types";
+import { Button, Modal } from "..";
 import { LoginForm, RegisterForm } from "./form";
+import { fireLogin, fireRegister, fireLogout } from "../../utils/firebase";
+
 import RazerLogoIcon from "../../../assets/logo/razer-logo-icon.svg";
 import "./styles.less";
 
@@ -33,11 +35,24 @@ class Authorization extends Component {
   };
 
   handleLogin = (value) => {
-    console.log(value);
+    const { email, password } = value;
+    this.props.loginUser(email, password);
+  };
+
+  handleLogout = () => {
+    this.props.logoutUser();
   };
 
   handleRegister = (value) => {
-    console.log(value);
+    const { email, cPassword } = value;
+    fireRegister({ email, password: cPassword })
+      .then((res) => {
+        if (res) {
+          const { uid, email } = res.user;
+          this.props.setUserAuthenticated(true);
+        }
+      })
+      .catch((err) => console.log("Error:", err));
   };
 
   handleSwitchForm = () => {
@@ -83,13 +98,21 @@ class Authorization extends Component {
             />
           )}
 
-          {isUserAuthenticated && (
+          {/* {isUserAuthenticated && (
             <div className="auth-actions__profile">
               <div className="auth-actions__profile-img" />
               <span className="auth-actions__profile-name ellipsis">
                 Benson
               </span>
             </div>
+          )} */}
+
+          {isUserAuthenticated && (
+            <Button
+              onClick={this.handleLogout}
+              value="LOGOUT"
+              className="razer-btn danger razer-fonts"
+            />
           )}
         </div>
 
@@ -124,6 +147,9 @@ class Authorization extends Component {
 
 Authorization.propTypes = {
   isUserAuthenticated: bool.isRequired,
+  setUserAuthenticated: func.isRequired,
+  loginUser: func.isRequired,
+  logoutUser: func.isRequired,
 };
 
 export default Authorization;

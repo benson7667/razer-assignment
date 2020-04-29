@@ -1,5 +1,9 @@
 import size from "lodash/size";
 
+export const firebaseErrorMsg = {
+  "auth/email-already-in-use": "Email address is exist.",
+};
+
 // TODO: add unit test
 export const generateErrObj = (errArr) => {
   let errObj = {};

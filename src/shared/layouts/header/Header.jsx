@@ -1,5 +1,5 @@
 import React from "react";
-import { Authorization } from "../../../shared/connected_components";
+import { Authorization } from "../../../shared/components";
 import "./styles.less";
 
 const Header = () => {

@@ -1,4 +1,6 @@
 const SIDEBAR_MENU_LIST = "SIDE_BAR_MENU_LIST";
+export const RAZER_JWT_TOKEN = "RAZER_JWT_TOKEN";
+export const RAZER_USER_INFO = "RAZER_USER_INFO";
 
 const isLocalStorageAvailable = () => {
   try {
@@ -48,6 +50,7 @@ const storage = {
     document.cookie = `${key}${expiry}`;
   },
 
+  // sidebar menu
   setMenuList: (value) => {
     storage.set(SIDEBAR_MENU_LIST, JSON.stringify(value));
   },

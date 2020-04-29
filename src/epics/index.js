@@ -1,5 +1,6 @@
 import { combineEpics } from "redux-observable";
 import * as sideBarEpics from "../shared/layouts/sidebar/epics";
+import * as authEpics from "../shared/components/authorization/epics/authEpics";
 
 const combineEpicFunctions = (epics) =>
   epics.reduce((arr, epic) => {
@@ -7,6 +8,6 @@ const combineEpicFunctions = (epics) =>
     return arr.concat(keys.map((key) => epic[key]));
   }, []);
 
-const epics = combineEpicFunctions([sideBarEpics]);
+const epics = combineEpicFunctions([sideBarEpics, authEpics]);
 
 export const rootEpic = combineEpics(...epics);

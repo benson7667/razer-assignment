@@ -5,7 +5,7 @@ import isEmpty from "lodash/isEmpty";
 import isEqual from "lodash/isEqual";
 import get from "lodash/get";
 
-import { Button, Input } from "../../../components";
+import { Button, Input } from "../..";
 import { generateErrObj } from "../../../utils/errors";
 import { isValidEmail } from "../../../utils/formValidation";
 

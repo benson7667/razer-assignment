@@ -4,9 +4,9 @@ import { func } from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
 
-import { Button, Input } from "../../../components";
-import { isValidEmail } from "../../../../shared/utils/formValidation";
-import { generateErrObj } from "../../../../shared/utils/errors";
+import { Button, Input } from "../..";
+import { isValidEmail } from "../../../utils/formValidation";
+import { generateErrObj } from "../../../utils/errors";
 
 class LoginForm extends Component {
   state = {
