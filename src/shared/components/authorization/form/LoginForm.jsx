@@ -105,7 +105,7 @@ class LoginForm extends Component {
           </div>
 
           <Button
-            value="LOGIN"
+            value="TEST LOGIN"
             style={{ width: "100%" }}
             onClick={this.handleLogin}
             isLoading={isLoggingIn}
