@@ -7,12 +7,15 @@ const AuthorizationContainer = (props) => <Authorization {...props} />;
 
 const mapStateToProps = (state) => ({
   isUserAuthenticated: state.user.isUserAuthenticated,
+  isLoggingIn: state.user.isLoggingIn,
+  isRegistering: state.user.isRegistering,
+  authError: state.user.authError,
 });
 
 const mapDispatchToProps = {
   loginUser: Actions.LOGIN_REQUEST,
   logoutUser: Actions.LOGOUT,
-  registerUser: Actions.REGISTER,
+  registerUser: Actions.REGISTER_REQUEST,
 };
 
 export default connect(

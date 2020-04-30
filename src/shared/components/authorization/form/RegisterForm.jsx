@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { func } from "prop-types";
+import { any, bool, func, obj } from "prop-types";
 
 import isEmpty from "lodash/isEmpty";
 import isEqual from "lodash/isEqual";
 import get from "lodash/get";
 
 import { Button, Input } from "../..";
-import { generateErrObj } from "../../../utils/errors";
+import { generateErrObj, getFirebaseAuthErr } from "../../../utils/errors";
 import { isValidEmail } from "../../../utils/formValidation";
 
 class RegisterForm extends Component {
@@ -14,8 +14,21 @@ class RegisterForm extends Component {
     email: "",
     password: "",
     cPassword: "",
-    error: {},
+    error: {}, // err for validation
+    registerErr: {}, // err from firebase
   };
+
+  componentDidUpdate(prevProps) {
+    const { authError, isRegistering } = this.props;
+    // set authError to a local state, when register failed
+    if (
+      prevProps.isRegistering !== isRegistering &&
+      !isRegistering &&
+      !isEmpty(authError)
+    ) {
+      this.setState({ registerErr: authError });
+    }
+  }
 
   handleOnChange = (name) => (e) => {
     this.setState({
@@ -66,9 +79,10 @@ class RegisterForm extends Component {
   };
 
   render() {
-    const { handleSwitchForm } = this.props;
-    const { email, password, cPassword, error } = this.state;
+    const { handleSwitchForm, isRegistering } = this.props;
+    const { email, password, cPassword, error, registerErr } = this.state;
 
+    const firebaseAuthErr = getFirebaseAuthErr(registerErr);
     const emailErrMsg = get(error, "email.0", "");
     const passwordErrMsg = get(error, "password.0", "");
     const cPasswordErrMsg = get(error, "cPassword.0", "");
@@ -81,7 +95,7 @@ class RegisterForm extends Component {
             placeholder="Enter your email"
             onChange={this.handleOnChange("email")}
             validateStatus={{
-              error: !!emailErrMsg,
+              error: !!emailErrMsg || !!firebaseAuthErr,
             }}
             value={email}
             help={emailErrMsg}
@@ -92,7 +106,7 @@ class RegisterForm extends Component {
             onChange={this.handleOnChange("password")}
             type="password"
             validateStatus={{
-              error: !!emailErrMsg,
+              error: !!emailErrMsg || firebaseAuthErr,
             }}
             value={password}
             help={passwordErrMsg}
@@ -103,7 +117,7 @@ class RegisterForm extends Component {
             onChange={this.handleOnChange("cPassword")}
             type="password"
             validateStatus={{
-              error: !!emailErrMsg,
+              error: !!emailErrMsg || !!firebaseAuthErr,
             }}
             value={cPassword}
             help={cPasswordErrMsg}
@@ -111,10 +125,12 @@ class RegisterForm extends Component {
         </form>
 
         <div className="auth-modal__body-register">
+          <span className="auth-error">{firebaseAuthErr}</span>
           <Button
             value="TEST REGISTER"
             style={{ width: "100%" }}
             onClick={this.handleRegister}
+            isLoading={isRegistering}
           />
           <Button
             className="razer-btn secondary"
@@ -129,8 +145,10 @@ class RegisterForm extends Component {
 }
 
 RegisterForm.propTypes = {
+  authError: any,
   handleSwitchForm: func.isRequired,
   handleRegister: func.isRequired,
+  isRegistering: bool,
 };
 
 export default RegisterForm;

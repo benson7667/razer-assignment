@@ -22,10 +22,10 @@ const { Actions, Constants } = EasyActions({
     return { type };
   },
 
-  REGISTER(type, payload) {
-    return { type, payload };
+  REGISTER_REQUEST(type, email, password) {
+    return { type, email, password };
   },
-  REGISTER_SUCCESS(type) {
+  REGISTER_RESPONSE(type) {
     return { type };
   },
 

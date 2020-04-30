@@ -14,7 +14,7 @@ const defaultState = {
   isRegistering: false,
   isUserAuthenticated: !!token,
   userInfo: userInfoTransformer(userInfo),
-  error: null,
+  authError: null,
 };
 
 const userReducer = (state = defaultState, action) => {
@@ -26,6 +26,19 @@ const userReducer = (state = defaultState, action) => {
         userInfo: action.userInfo,
         isUserAuthenticated: action.token ? true : false,
       };
+
+    case ActionTypes.REGISTER_REQUEST:
+      return {
+        ...state,
+        isRegistering: true,
+      };
+
+    case ActionTypes.REGISTER_RESPONSE: {
+      return {
+        ...state,
+        isRegistering: false,
+      };
+    }
 
     case ActionTypes.LOGIN_REQUEST:
       return {
@@ -56,7 +69,7 @@ const userReducer = (state = defaultState, action) => {
         ...state,
         isLoggingIn: false,
         isRegistering: false,
-        error: action.error,
+        authError: action.error,
       };
 
     default:

@@ -1,19 +1,32 @@
 import React, { Component } from "react";
-import { func } from "prop-types";
+import { any, bool, func } from "prop-types";
 
 import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
 
 import { Button, Input } from "../..";
 import { isValidEmail } from "../../../utils/formValidation";
-import { generateErrObj } from "../../../utils/errors";
+import { generateErrObj, getFirebaseAuthErr } from "../../../utils/errors";
 
 class LoginForm extends Component {
   state = {
-    email: "",
-    password: "",
-    error: {},
+    email: "test123@razer.com",
+    password: "asdasdasd",
+    error: {}, // err from validation
+    loginErr: {}, // err from firebase
   };
+
+  componentDidUpdate(prevProps) {
+    const { authError, isLoggingIn } = this.props;
+    // set authError to a local state, when register failed
+    if (
+      prevProps.isLoggingIn !== isLoggingIn &&
+      !isLoggingIn &&
+      !isEmpty(authError)
+    ) {
+      this.setState({ loginErr: authError });
+    }
+  }
 
   handleOnChange = (name) => (e) => {
     this.setState({
@@ -54,8 +67,10 @@ class LoginForm extends Component {
   };
 
   render() {
-    const { handleSwitchForm } = this.props;
-    const { email, password, error } = this.state;
+    const { handleSwitchForm, isLoggingIn } = this.props;
+    const { email, password, error, loginErr } = this.state;
+
+    const firebaseAuthErr = getFirebaseAuthErr(loginErr);
     const emailErrMsg = get(error, "email.0", "");
     const passwordErrMsg = get(error, "password.0", "");
 
@@ -68,7 +83,7 @@ class LoginForm extends Component {
             onChange={this.handleOnChange("email")}
             value={email}
             validateStatus={{
-              error: !!emailErrMsg,
+              error: !!emailErrMsg || !!firebaseAuthErr,
             }}
             help={emailErrMsg}
           />
@@ -79,16 +94,21 @@ class LoginForm extends Component {
             onChange={this.handleOnChange("password")}
             value={password}
             validateStatus={{
-              error: !!passwordErrMsg,
+              error: !!passwordErrMsg || firebaseAuthErr,
             }}
             help={passwordErrMsg}
           />
-          <div className="razer-forgot-password">Forgot Password?</div>
+
+          <div className="razer-forgot-password-wrapper">
+            <div className="razer-auth-error">{firebaseAuthErr}</div>
+            <div className="razer-forgot-password">Forgot Password?</div>
+          </div>
 
           <Button
             value="LOGIN"
             style={{ width: "100%" }}
             onClick={this.handleLogin}
+            isLoading={isLoggingIn}
           />
         </form>
 
@@ -120,8 +140,10 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  handleLogin: func.isRequired,
+  authError: any,
   handleSwitchForm: func.isRequired,
+  handleLogin: func.isRequired,
+  isLoggingIn: bool,
 };
 
 export default LoginForm;

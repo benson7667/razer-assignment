@@ -26,7 +26,6 @@ export const setUserEpic = (action$) =>
       const userInfo = userDataTransformer(action.userInfo);
       const token = action.token;
 
-      // no token means the user is logged out
       if (!token) {
         storage.remove(RAZER_JWT_TOKEN);
         storage.remove(RAZER_USER_INFO);
@@ -56,6 +55,17 @@ export const logoutEpic = (action$) =>
     mergeMap(() =>
       from(fireLogout()).pipe(
         mergeMap(() => of(Actions.LOGOUT_SUCCESS())),
+        catchError((error) => of(Actions.AUTH_ERROR(error)))
+      )
+    )
+  );
+
+export const registerEpic = (action$) =>
+  action$.pipe(
+    ofType(ActionTypes.REGISTER_REQUEST),
+    mergeMap((action) =>
+      from(fireRegister(action.email, action.password)).pipe(
+        mergeMap(() => of(Actions.REGISTER_RESPONSE())),
         catchError((error) => of(Actions.AUTH_ERROR(error)))
       )
     )

@@ -49,11 +49,20 @@
       font-family: "RazerF5";
       width: 100%;
     }
+    &-form .razer-forgot-password-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    &-form .razer-auth-error {
+      color: @color-red;
+      font-size: 12px;
+    }
     &-form .razer-forgot-password {
       cursor: pointer;
-      text-align: right;
       font-size: 14px;
       color: @color-83;
+      justify-self: flex-end;
       margin-top: 5px;
       margin-bottom: 12px;
 
@@ -111,6 +120,12 @@
       flex: 1;
       flex-direction: column;
       justify-content: flex-end;
+    }
+
+    &-register .auth-error {
+      color: @color-red;
+      margin-bottom: 10px;
+      font-size: 12px;
     }
   }
 

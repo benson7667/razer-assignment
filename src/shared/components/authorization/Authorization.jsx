@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { bool, func } from "prop-types";
+import { bool, func, object } from "prop-types";
 import { Button, Modal } from "..";
 import { LoginForm, RegisterForm } from "./form";
-import { fireLogin, fireRegister, fireLogout } from "../../utils/firebase";
 
 import RazerLogoIcon from "../../../assets/logo/razer-logo-icon.svg";
 import "./styles.less";
@@ -15,6 +14,7 @@ class Authorization extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { isAuthModalVisible, formName } = this.state;
+    const { isUserAuthenticated } = this.props;
 
     // user switching tab to 'register' and then close the modal, set it back to register
     if (
@@ -25,6 +25,14 @@ class Authorization extends Component {
       this.setState({
         formName: "login",
       });
+    }
+
+    // user successfully login / register
+    if (
+      prevProps.isUserAuthenticated !== isUserAuthenticated &&
+      isUserAuthenticated
+    ) {
+      this.setState({ isAuthModalVisible: false });
     }
   }
 
@@ -45,14 +53,7 @@ class Authorization extends Component {
 
   handleRegister = (value) => {
     const { email, cPassword } = value;
-    fireRegister({ email, password: cPassword })
-      .then((res) => {
-        if (res) {
-          const { uid, email } = res.user;
-          this.props.setUserAuthenticated(true);
-        }
-      })
-      .catch((err) => console.log("Error:", err));
+    this.props.registerUser(email, cPassword);
   };
 
   handleSwitchForm = () => {
@@ -84,7 +85,12 @@ class Authorization extends Component {
   };
 
   render() {
-    const { isUserAuthenticated } = this.props;
+    const {
+      authError,
+      isUserAuthenticated,
+      isLoggingIn,
+      isRegistering,
+    } = this.props;
     const { isAuthModalVisible, formName } = this.state;
 
     return (
@@ -127,15 +133,19 @@ class Authorization extends Component {
           >
             {formName === "login" && (
               <LoginForm
+                authError={authError}
                 handleLogin={this.handleLogin}
                 handleSwitchForm={this.handleSwitchForm}
+                isLoggingIn={isLoggingIn}
               />
             )}
 
             {formName === "register" && (
               <RegisterForm
+                authError={authError}
                 handleRegister={this.handleRegister}
                 handleSwitchForm={this.handleSwitchForm}
+                isRegistering={isRegistering}
               />
             )}
           </Modal>
@@ -146,8 +156,10 @@ class Authorization extends Component {
 }
 
 Authorization.propTypes = {
+  authError: object,
   isUserAuthenticated: bool.isRequired,
-  setUserAuthenticated: func.isRequired,
+  isLoggingIn: bool,
+  isRegistering: bool,
   loginUser: func.isRequired,
   logoutUser: func.isRequired,
 };
