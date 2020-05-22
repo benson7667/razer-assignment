@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -54,7 +55,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "Razer Assignment",
       description: "This is an assignment given by Razer Inc",
-      template: "./src/index.html",
+      template: "./public/index.html",
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: "./public/manifest.json" },
+        { from: path.join(__dirname, "./public/firebase-messaging-sw.js") },
+      ],
     }),
   ],
 };

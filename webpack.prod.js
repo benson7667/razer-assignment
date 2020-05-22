@@ -1,6 +1,7 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -57,7 +58,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "Razer Assignment",
       description: "This is an assignment given by Razer Inc",
-      template: "./src/index.html",
+      template: "./public/index.html",
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: "./public/manifest.json" },
+        { from: path.join(__dirname, "./public/firebase-messaging-sw.js") },
+      ],
     }),
     new MiniCssExtractPlugin({
       // make css into a link url
